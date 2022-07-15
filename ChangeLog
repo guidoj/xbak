@@ -1,0 +1,137 @@
+2022-xx-yy, xbak-0.1.6:
+* Changed the build system to CMake.
+* Renamed all files to lower case.
+* Updated coding style.
+* Several bug fixes.
+
+2010-02-17, xbak-0.1.5:
+* Implemented the story reader.
+* Improved displaying animations.
+* Improved handling arrow buttons and keys.
+* Support for loading RMP resource files.
+* Updated to license GPL v3.
+* Removed unnecessary includes.
+* Several bug fixes.
+
+2009-09-01, xbak-0.1.4:
+* Refactored and enhanced the 3D engine.
+* Added limited support for joysticks.
+* Improved interpretation of BOK resource files.
+* Plugged some memory leaks.
+* Several bug fixes.
+
+2007-10-24, xbak-0.1.3:
+* Basic inventory handling now works.
+* Rewrote dragging and dropping widgets using events.
+* Implemented saving image resources (BMX, SCX files).
+* Added compression methods.
+* Added a tool for extraction and archiving of resources.
+* Started adding a little code documentation (Doxygen format).
+* Several bug fixes.
+
+2007-06-17, xbak-0.1.2:
+* Added inventory and equipment dialog.
+* Added GUI widgets for inventory items.
+* Character inventory can be loaded from saved games.
+* Refactored the GUI widgets a bit.
+* Improved search paths for original BaK data files.
+* Several bug fixes.
+
+2007-03-29, xbak-0.1.1:
+* Slightly improved the 3D engine.
+* Preferences dialog is completed, and some preferences are effective.
+* Configuration file can be loaded and saved.
+* Added a few more drawing primitives.
+
+2007-01-10, xbak-0.1.0:
+* Added a minimal 3D engine.
+* Added terrain and the illusion of movement to the main game view.
+* Added geometrical classes.
+* TBL files can be loaded and partly interpreted.
+* OBJINFO.DAT file can be loaded (mostly interpreted).
+* Several bug fixes.
+
+2006-11-09, xbak-0.0.12:
+* Added the character info dialog.
+* Character stats are loaded from the startup game file.
+* Added a dummy audio driver.
+* Major refactoring around Dialog class.
+* Framework implementation for saving data.
+* Fixed compilation errors.
+* Several bug fixes.
+
+2006-10-02, xbak-0.0.11:
+* Added the compass and the horizon in the main game view.
+* Added sevaral GUI widgets for the main game view.
+* Mouse can be moved while fading.
+* Improved event handling.
+* Dialogs are now more flexible.
+* Plugged a memory leak.
+* Several bug fixes.
+
+2006-08-20, xbak-0.0.10:
+* Fixed crash on starting a new game.
+* Fixed a few portability issues.
+
+2006-08-06, xbak-0.0.9:
+* Sound (MIDI/WAVE) can be loaded and played.
+* Initial implementation of loading/saving games is done.
+* Added some drawing primitives.
+* Fixed a few portability issues.
+* Plugged a memory leak.
+* Several bug fixes.
+
+2006-06-08, xbak-0.0.8:
+* More work on the main game dialogs.
+* Character button GUI widgets are available.
+* Several bug fixes.
+
+2006-05-14, xbak-0.0.7:
+* Implemented a proper game state machine.
+* Initial implementation of the main game dialog screen is done.
+* Still more work on the GUI, more widgets.
+* Added timer events.
+* DDX files can be loaded and partially interpreted.
+* Several bug fixes.
+
+2006-04-10, xbak-0.0.6:
+* Changed the EventHandler to more flexible EventListeners.
+* More work is done on the GUI, more dialogs are available.
+* Added the ability to create screenshots (BMP format).
+* Keyboard and mouse grabbing is now user-controlled.
+* BOK files can be loaded and partially interpreted.
+* Several bug fixes.
+
+2006-02-26, xbak-0.0.5:
+* LBL_*.DAT files and REQ_*.DAT files can be loaded.
+* Initial implementation of some GUI widgets is finished.
+* A few bug fixes.
+
+2006-01-22, xbak-0.0.4:
+* Event handling structure is done, keyboard and mouse are working.
+* Separate viewers are replaced by one single viewer application.
+* A few more resource files can be loaded.
+* Refactored several parts of the code.
+* Some bug fixes.
+
+2005-11-10, xbak-0.0.3:
+* Better interpretation of TTM files.
+* Viewers for BMX, FNT, SCX and TTM files are available.
+* Improved application framework.
+* Memory leakes are plugged.
+* Several bug fixes.
+
+2005-10-21, xbak-0.0.2:
+* ADS files can be loaded and partially interpreted.
+* TTM files can be loaded and partially interpreted.
+* Some more work on sound data.
+* Several bug fixes.
+
+2005-10-16, xbak-0.0.1:
+* Structure for reading the resource files is done.
+* Processing labeled resource files is done.
+* PAL palette definitions can be loaded.
+* BMX and SCX images can be loaded and displayed.
+* FNT font definitions can be loaded, text can be displayed.
+* WLD map tiles can be loaded, types of the items on the map are mostly unknown.
+* Sound data can be loaded, there is no sound yet though.
