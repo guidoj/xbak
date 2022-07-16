@@ -1,1 +1,4 @@
 build/
+html/
+*.tag
+*.kdev4
