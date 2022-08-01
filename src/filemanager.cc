@@ -71,7 +71,7 @@ FileManager::loadConfig(const std::string &name)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::LoadConfig");
+        e.print("FileManager::loadConfig");
         throw;
     }
     return 0;
@@ -89,7 +89,7 @@ FileManager::saveConfig(const std::string &name, FileBuffer* buffer)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveConfig");
+        e.print("FileManager::saveConfig");
         throw;
     }
 }
@@ -106,7 +106,7 @@ FileManager::saveConfig(const std::string &name, FileBuffer* buffer, const unsig
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveConfig");
+        e.print("FileManager::saveConfig");
         throw;
     }
 }
@@ -126,7 +126,7 @@ FileManager::loadGame(const std::string &name)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::LoadGame");
+        e.print("FileManager::loadGame");
         throw;
     }
     return 0;
@@ -144,7 +144,7 @@ FileManager::saveGame(const std::string &name, FileBuffer* buffer)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveGame");
+        e.print("FileManager::saveGame");
         throw;
     }
 }
@@ -161,7 +161,7 @@ FileManager::saveGame(const std::string &name, FileBuffer* buffer, const unsigne
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveGame");
+        e.print("FileManager::saveGame");
         throw;
     }
 }
@@ -216,7 +216,7 @@ FileManager::saveResource(const std::string &name, FileBuffer* buffer)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveResource");
+        e.print("FileManager::saveResource");
         throw;
     }
 }
@@ -233,7 +233,7 @@ FileManager::saveResource(const std::string &name, FileBuffer* buffer, const uns
     }
     catch (Exception &e)
     {
-        e.print("FileManager::SaveResource");
+        e.print("FileManager::saveResource");
         throw;
     }
 }
@@ -267,7 +267,7 @@ FileManager::load(ConfigData *cfg, const std::string &name)
     }
     catch (Exception &e)
     {
-        e.print("FileManager::Load");
+        e.print("FileManager::load");
         throw;
     }
 }

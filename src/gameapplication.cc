@@ -153,7 +153,7 @@ void GameApplication::playIntro()
     }
     catch ( Exception &e )
     {
-        e.print ( "GameApplication::Intro" );
+        e.print ( "GameApplication::playIntro" );
     }
 }
 
@@ -205,7 +205,7 @@ void GameApplication::run()
     }
     catch ( Exception &e )
     {
-        e.print ( "GameApplication::Run" );
+        e.print ( "GameApplication::run" );
     }
 }
 

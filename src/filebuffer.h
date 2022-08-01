@@ -25,7 +25,7 @@
 #include <stdint.h>
 
 const unsigned int COMPRESSION_LZW  = 0;
-const unsigned int COMPRESSION_LZSS = 1;
+const unsigned int COMPRESSION_LZSS = 1; /* wild guess, not actually used ... */
 const unsigned int COMPRESSION_RLE  = 2;
 
 class FileBuffer
@@ -33,37 +33,38 @@ class FileBuffer
 private:
     uint8_t * m_buffer;
     uint8_t * m_current;
-    unsigned int m_size;
+    unsigned long m_size;
     unsigned int m_nextbit;
 public:
-    FileBuffer ( const unsigned int n );
+    FileBuffer ( const unsigned long n );
     virtual ~FileBuffer();
 
     void load ( std::ifstream &ifs );
     void save ( std::ofstream &ofs );
-    void save ( std::ofstream &ofs, const unsigned int n );
-    void dump ( const unsigned int n = 0 );
-    void copyFrom ( FileBuffer *buf, const unsigned int n );
-    void copyTo ( FileBuffer *buf, const unsigned int n );
+    void save ( std::ofstream &ofs, const unsigned long n );
+    void dump ( const unsigned long n = 0 );
+    void copyFrom ( FileBuffer *buf, const unsigned long n );
+    void copyTo ( FileBuffer *buf, const unsigned long n );
     void fill ( FileBuffer *buf );
     void rewind();
-    void seek ( const unsigned int n );
-    void skip ( const int n );
+    void seek ( const unsigned long n );
+    void skip ( const long n );
 
     void skipBits();
-    unsigned int compressLZW ( FileBuffer *result );
-    unsigned int compressLZSS ( FileBuffer *result );
-    unsigned int compressRLE ( FileBuffer *result );
-    unsigned int compress ( FileBuffer *result, const unsigned int method );
-    unsigned int decompressLZW ( FileBuffer *result );
-    unsigned int decompressLZSS ( FileBuffer *result );
-    unsigned int decompressRLE ( FileBuffer *result );
-    unsigned int decompress ( FileBuffer *result, const unsigned int method );
+    unsigned long compressLZW ( FileBuffer *result );
+    unsigned long compressLZSS ( FileBuffer *result );
+    unsigned long compressRLE ( FileBuffer *result );
+    unsigned long compress ( FileBuffer *result, const unsigned int method );
+    unsigned long decompressLZW ( FileBuffer *result );
+    unsigned long decompressLZSS ( FileBuffer *result );
+    unsigned long decompressRLE ( FileBuffer *result );
+    unsigned long decompress ( FileBuffer *result, const unsigned int method );
 
     bool atEnd() const;
-    unsigned int getSize() const;
-    unsigned int getBytesDone() const;
-    unsigned int getBytesLeft() const;
+    unsigned long getSize() const;
+    unsigned long getBytesDone() const;
+    unsigned long getBytesLeft() const;
+    unsigned long getBitsLeft() const;
     uint8_t * getCurrent() const;
     unsigned int getNextBit() const;
 

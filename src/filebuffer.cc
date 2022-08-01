@@ -17,6 +17,7 @@
  * Copyright (C) 2005-2022 Guido de Jong
  */
 
+#include <cstring>
 #include <iomanip>
 #include <iostream>
 #include <map>
@@ -27,7 +28,7 @@
 #include "exception.h"
 #include "filebuffer.h"
 
-FileBuffer::FileBuffer(const unsigned int n)
+FileBuffer::FileBuffer(const unsigned long n)
 {
     m_buffer = new uint8_t[n];
     memset(m_buffer, 0, n);
@@ -45,7 +46,7 @@ FileBuffer::~FileBuffer()
 }
 
 void
-FileBuffer::copyFrom(FileBuffer *buf, const unsigned int n)
+FileBuffer::copyFrom(FileBuffer *buf, const unsigned long n)
 {
     if (m_buffer && n && (m_current + n <= m_buffer + m_size))
     {
@@ -55,7 +56,7 @@ FileBuffer::copyFrom(FileBuffer *buf, const unsigned int n)
 }
 
 void
-FileBuffer::copyTo(FileBuffer *buf, const unsigned int n)
+FileBuffer::copyTo(FileBuffer *buf, const unsigned long n)
 {
     if (m_buffer && n && (m_current + n <= m_buffer + m_size))
     {
@@ -111,7 +112,7 @@ FileBuffer::save(std::ofstream &ofs)
 }
 
 void
-FileBuffer::save(std::ofstream &ofs, const unsigned int n)
+FileBuffer::save(std::ofstream &ofs, const unsigned long n)
 {
     if (ofs.is_open())
     {
@@ -136,7 +137,7 @@ FileBuffer::save(std::ofstream &ofs, const unsigned int n)
 }
 
 void
-FileBuffer::dump(const unsigned int n)
+FileBuffer::dump(const unsigned long n)
 {
     uint8_t* tmp = m_current;
     unsigned int count = 0;
@@ -157,7 +158,7 @@ FileBuffer::dump(const unsigned int n)
 }
 
 void
-FileBuffer::seek(const unsigned int n)
+FileBuffer::seek(const unsigned long n)
 {
     if ((m_current) && (n <= m_size))
     {
@@ -166,7 +167,7 @@ FileBuffer::seek(const unsigned int n)
 }
 
 void
-FileBuffer::skip(const int n)
+FileBuffer::skip(const long n)
 {
     if ((m_current) && (m_current + n <= m_buffer + m_size))
     {
@@ -195,7 +196,7 @@ typedef union _HashTableEntry
     entry;
 } HashTableEntry;
 
-unsigned int
+unsigned long
 FileBuffer::compressLZW(FileBuffer *result)
 {
     try
@@ -204,6 +205,7 @@ FileBuffer::compressLZW(FileBuffer *result)
         unsigned int n_bits = 9;
         unsigned int free_entry = 257;
         unsigned int bitpos = 0;
+        bool entry_written = false;
         HashTableEntry hte;
         hte.entry.prefix = getUint8();
         while (!atEnd() && !result->atEnd())
@@ -214,6 +216,7 @@ FileBuffer::compressLZW(FileBuffer *result)
             {
                 result->putBits(hte.entry.prefix, n_bits);
                 bitpos += n_bits;
+                entry_written = true;
                 hashtable.insert(std::pair<uint32_t, uint16_t>(hte.code, free_entry));
                 hte.entry.prefix = hte.entry.append;
                 free_entry++;
@@ -238,10 +241,16 @@ FileBuffer::compressLZW(FileBuffer *result)
             else
             {
                 hte.entry.prefix = it->second;
+                entry_written = false;
             }
         }
+        if (!entry_written)
+        {
+            result->putBits(hte.entry.prefix, n_bits);
+        }
+        result->skipBits();
         hashtable.clear();
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -253,7 +262,7 @@ FileBuffer::compressLZW(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::compressLZSS(FileBuffer *result)
 {
     try
@@ -302,11 +311,14 @@ FileBuffer::compressLZSS(FileBuffer *result)
                 skip(len - 1);
             }
             curr = getCurrent();
-            byte = getUint8();
+            if (!atEnd())
+            {
+                byte = getUint8();
+            }
             mask <<= 1;
         }
         *codeptr = code;
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -318,7 +330,7 @@ FileBuffer::compressLZSS(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::compressRLE(FileBuffer *result)
 {
     try
@@ -401,7 +413,7 @@ FileBuffer::compressRLE(FileBuffer *result)
                 skipped -= n;
             }
         }
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -413,7 +425,7 @@ FileBuffer::compressRLE(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::compress(FileBuffer *result, const unsigned int method)
 {
     switch (method)
@@ -440,7 +452,7 @@ typedef struct _CodeTableEntry
 }
 CodeTableEntry;
 
-unsigned int
+unsigned long
 FileBuffer::decompressLZW(FileBuffer *result)
 {
     try
@@ -454,7 +466,7 @@ FileBuffer::decompressLZW(FileBuffer *result)
         unsigned int lastbyte = oldcode;
         unsigned int bitpos = 0;
         result->putUint8(oldcode);
-        while (!atEnd() && !result->atEnd())
+        while ((getBitsLeft() >= n_bits) && !result->atEnd())
         {
             unsigned int newcode = getBits(n_bits);
             bitpos += n_bits;
@@ -501,7 +513,7 @@ FileBuffer::decompressLZW(FileBuffer *result)
         }
         delete[] decodestack;
         delete[] codetable;
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -513,7 +525,7 @@ FileBuffer::decompressLZW(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::decompressLZSS(FileBuffer *result)
 {
     try
@@ -540,7 +552,7 @@ FileBuffer::decompressLZSS(FileBuffer *result)
             }
             mask <<= 1;
         }
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -552,7 +564,7 @@ FileBuffer::decompressLZSS(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::decompressRLE(FileBuffer *result)
 {
     try
@@ -569,7 +581,7 @@ FileBuffer::decompressRLE(FileBuffer *result)
                 result->copyFrom(this, control);
             }
         }
-        unsigned int res = result->getBytesDone();
+        unsigned long res = result->getBytesDone();
         result->rewind();
         return res;
     }
@@ -581,7 +593,7 @@ FileBuffer::decompressRLE(FileBuffer *result)
     return 0;
 }
 
-unsigned int
+unsigned long
 FileBuffer::decompress(FileBuffer *result, const unsigned int method)
 {
     switch (method)
@@ -611,22 +623,28 @@ FileBuffer::atEnd() const
     return (m_current >= m_buffer + m_size);
 }
 
-unsigned int
+unsigned long
 FileBuffer::getSize() const
 {
     return m_size;
 }
 
-unsigned int
+unsigned long
 FileBuffer::getBytesDone() const
 {
     return (m_current - m_buffer);
 }
 
-unsigned int
+unsigned long
 FileBuffer::getBytesLeft() const
 {
     return (m_buffer + m_size - m_current);
+}
+
+unsigned long
+FileBuffer::getBitsLeft() const
+{
+    return (((m_buffer + m_size - m_current) << 3) - m_nextbit);
 }
 
 uint8_t *

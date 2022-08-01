@@ -67,7 +67,7 @@ void ScreenResource::load(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("ScreenResource::Load");
+        e.print("ScreenResource::load");
         throw;
     }
 }
@@ -92,7 +92,7 @@ unsigned int ScreenResource::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("ScreenResource::Save");
+        e.print("ScreenResource::save");
         throw;
     }
 }

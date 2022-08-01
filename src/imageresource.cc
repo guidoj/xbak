@@ -98,7 +98,7 @@ void ImageResource::load ( FileBuffer *buffer )
     }
     catch ( Exception &e )
     {
-        e.print ( "ImageResource::Load" );
+        e.print ( "ImageResource::load" );
         throw;
     }
 }

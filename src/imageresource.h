@@ -29,9 +29,6 @@ private:
     unsigned int m_compression;
     unsigned int m_numImages;
     std::vector<Image *> m_images;
-    void decompressLZW ( FileBuffer *from, FileBuffer *to );
-    void decompressLZ ( FileBuffer *from, FileBuffer *to );
-    void decompressRLE ( FileBuffer *from, FileBuffer *to );
 public:
     ImageResource();
     virtual ~ImageResource();
