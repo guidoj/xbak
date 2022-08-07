@@ -7,13 +7,10 @@ xBaK is a fan-made remake of the classic Sierra computer RPG "Betrayal at Krondo
 ## Requirements
 
 Required tools and software (minimum version is listed):
-* SDL-1.2.13
-* SDL_mixer-1.2.11
-* SDL_sound-1.0.3
+* SDL-2.0.x
+* SDL_mixer-2.6.x
 
-xBaK uses SDL_sound to convert the MIDI sound to WAV format. Therefore SDL_sound must be built with Timidity++ support. SDL_sound also requires a GUS compatible set of sound patches. These should probably come with your linux distribution.
-
-Note that SDL_mixer must be built _without_ Timidity++ support! Building both SDL_Sound and SDL_mixer with Timidity++ support will result in both libraries providing the same functions originally from Timidity++. This will inevitably lead to either build time or run time problems.
+SDL_mixer must be built with Timidity++ support. SDL_mixer also requires a GUS compatible set of sound patches. You can download those from the SDL_mixer website and unpack them in your current working directory. At present that is the only place xBaK will look for them.
 
 ## Building
 
@@ -55,7 +52,7 @@ Notes for running the xBaK game:
     ~/.xbak/games     # for saved games
   On other platforms the current directory is used for everything, except the original Betrayal at Krondor data files mentioned above.
 * Grabbing keyboard and mouse
-  Initially the keyboard and mouse are not grabbed. Grabbing the input can be toggled by pressing the F12 key. Or, if the input is not grabbed,   move the mouse inside the xbak application window and press the left or right mouse button to grab the input. When the input is grabbed, pressing the middle mouse button will release the grab on input. Note: the mouse is not grabbed if debugging support is enabled.
+  Initially the keyboard and mouse are not grabbed. Grabbing the input can be toggled by pressing the F12 key. Or, if the input is not grabbed, move the mouse inside the xBaK application window and press the left or right mouse button to grab the input. When the input is grabbed, pressing the middle mouse button will release the grab on input.
 * Screenshots
   Screenshots can be made using the F11 key. The screenshots will be saved in the dedicated screenshot directory mentioned earlier. The images are stored in BMP format. The filenames have the following form: xbak_<nnn>.bmp, with <nnn> ranging from 001 to 999. Pre-existing screenshot files will be overwritten.
 
