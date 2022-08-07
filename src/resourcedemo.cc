@@ -188,7 +188,7 @@ int main ( int argc, char **argv )
             {
                 TestApplication *app = TestApplication::getInstance();
                 app->activatePalette();
-                app->PlayMovie ( argv[2] );
+                app->playMovie ( argv[2] );
             }
             break;
         case CT_WLD:

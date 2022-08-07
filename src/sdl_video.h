@@ -33,33 +33,27 @@ struct PolygonEdge
     double dxdy;
 };
 
-struct Surface
-{
-    int xOffset;
-    int yOffset;
-    unsigned int scaling;
-    SDL_Surface* buffer;
-};
-
 class SDL_Video
     : public Video
 {
 private:
-    const SDL_VideoInfo *m_info;
-    SDL_Surface* m_window;
-    SDL_Surface* m_windowBuffer;
-    Surface m_hireslocolSurface;
-    Surface m_loreshicolSurface;
-    Surface* m_currentSurface;
+    SDL_Window* m_window;
+    SDL_Surface* m_windowSurface;
+    SDL_Surface* m_hiResLoColBuffer;
+    SDL_Surface* m_loResHiColBuffer;
+    SDL_Surface* m_currentVideoBuffer;
+    SDL_Palette *m_currentPalette;
+
     bool createEdge ( PolygonEdge &edge, const int x1, const int y1, const int x2, const int y2 );
     void sortEdges ( PolygonEdge* &edges, const unsigned int n );
+    unsigned int getPixel ( const int x, const int y );
+    void putPixel ( const int x, const int y, const unsigned int c );
+
 public:
     SDL_Video();
     ~SDL_Video();
     void setMode ( const VideoMode m );
-    void createWindow ( const unsigned int sc );
-    unsigned int getPixel ( const int x, const int y );
-    void putPixel ( const int x, const int y, const unsigned int c );
+    void createWindow();
     void drawHLine ( const int x, const int y, const int w, const unsigned int c );
     void drawVLine ( const int x, const int y, const int h, const unsigned int c );
     void drawLine ( int x1, int y1, int x2, int y2, const unsigned int c );

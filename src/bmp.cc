@@ -199,7 +199,7 @@ void BMP::save(const std::string &name)
     bmpInfoHdr.width = m_image->getWidth();
     bmpInfoHdr.height = m_image->getHeight();
     bmpInfoHdr.planes = 1;
-    bmpInfoHdr.bitCount = WINDOW_BPP;
+    bmpInfoHdr.bitCount = WINDOW_DEPTH;
     bmpInfoHdr.compression = 0;
     bmpInfoHdr.imageSize = m_image->getSize();
     bmpInfoHdr.xPelsPerMeter = 0;

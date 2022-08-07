@@ -27,26 +27,13 @@
 class SDL_Toolkit
     : public MediaToolkit
 {
-    enum JoystickState { JS_CENTER,
-                         JS_UP,
-                         JS_UP_LEFT,
-                         JS_LEFT,
-                         JS_DOWN_LEFT,
-                         JS_DOWN,
-                         JS_DOWN_RIGHT,
-                         JS_RIGHT,
-                         JS_UP_RIGHT
-                       };
-
 private:
     int m_xPos;
     int m_yPos;
-    int m_xMove;
-    int m_yMove;
-    enum JoystickState m_jsState;
-    SDL_Joystick *m_joystick;
+
+    Key getKey( int sc );
     void handleEvent ( SDL_Event *event );
-    void updatePointer();
+
 public:
     SDL_Toolkit();
     ~SDL_Toolkit();
@@ -60,4 +47,3 @@ public:
 };
 
 #endif
-

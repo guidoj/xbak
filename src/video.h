@@ -25,24 +25,19 @@
 
 const int WINDOW_WIDTH  = 640;
 const int WINDOW_HEIGHT = 400;
-const int WINDOW_COLORS = 256;
-const int WINDOW_BPP    = 8;
+const int WINDOW_DEPTH  = 32;
 
 const int HIRES_LOCOL_WIDTH  = 640;
 const int HIRES_LOCOL_HEIGHT = 350;
-const int HIRES_LOCOL_COLORS = 16;
-const int HIRES_LOCOL_BPP    = 4;
+const int HIRES_LOCOL_DEPTH  = 8;
 
 const int LORES_HICOL_WIDTH  = 320;
 const int LORES_HICOL_HEIGHT = 200;
-const int LORES_HICOL_COLORS = 256;
-const int LORES_HICOL_BPP    = 8;
+const int LORES_HICOL_DEPTH  = 8;
 
-#ifdef PACKAGE_STRING
-const char WINDOW_TITLE[] = PACKAGE_STRING;
-#else
+const int PALETTE_COLORS = 256;
+
 const char WINDOW_TITLE[] = "xbak";
-#endif
 
 struct Color
 {
@@ -54,7 +49,7 @@ struct Color
 
 typedef enum
 {
-    HIRES_LOWCOL,
+    HIRES_LOCOL,
     LORES_HICOL
 }
 VideoMode;
@@ -62,22 +57,15 @@ VideoMode;
 class Video
 {
 protected:
-    int m_width;
-    int m_height;
-    unsigned int m_scaling;
     VideoMode m_mode;
+
 public:
     Video();
     virtual ~Video();
-    int getWidth() const;
-    int getHeight() const;
-    unsigned int getScaling() const;
     virtual void setMode ( const VideoMode m ) = 0;
-    virtual void createWindow ( const unsigned int sc ) = 0;
+    virtual void createWindow() = 0;
     virtual void clear() = 0;
     virtual void clear ( const int x, const int y, const int w, const int h ) = 0;
-    virtual unsigned int getPixel ( const int x, const int y ) = 0;
-    virtual void putPixel ( const int x, const int y, const unsigned int c ) = 0;
     virtual void drawHLine ( const int x, const int y, const int w, const unsigned int c ) = 0;
     virtual void drawVLine ( const int x, const int y, const int h, const unsigned int c ) = 0;
     virtual void drawLine ( int x1, int y1, int x2, int y2, const unsigned int c ) = 0;

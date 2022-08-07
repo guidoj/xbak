@@ -371,7 +371,7 @@ void Image::load(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("Image::Load");
+        e.print("Image::load");
         throw;
     }
 }
@@ -434,7 +434,7 @@ unsigned int Image::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("Image::Save");
+        e.print("Image::save");
         throw;
     }
     return 0;

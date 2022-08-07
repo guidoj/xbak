@@ -25,13 +25,21 @@
 #include "sound.h"
 #include "taggedresource.h"
 
+typedef enum
+{
+    SND_TYPE_UNKNOWN = 0,
+    SND_TYPE_MIDI = 7,
+    SND_TYPE_WAVE = 9
+}
+SoundType;
+
 class SoundData
 {
 public:
     SoundData();
     ~SoundData();
     std::string name;
-    unsigned int type;
+    SoundType type;
     std::vector<Sound *> sounds;
 };
 

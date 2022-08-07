@@ -110,7 +110,7 @@ void Chapter::readBook ( const int scene )
         filenameStream << "C" << m_number << scene << ".BOK";
         FileManager::getInstance()->load ( &bok, filenameStream.str() );
         Video *video = MediaToolkit::getInstance()->getVideo();
-        video->setMode ( HIRES_LOWCOL );
+        video->setMode ( HIRES_LOCOL );
 
         Text txt;
         for ( unsigned int i = 0; i < bok.getSize(); i++ )
@@ -191,14 +191,14 @@ void Chapter::readBook ( const int scene )
             pageNumberWidget.setText ( ROMAN_NUMBER[pd.number] );
             pageNumberWidget.draw();
 
-            pal.getPalette()->fadeIn ( 0, WINDOW_COLORS, 64, 5 );
+            pal.getPalette()->fadeIn ( 0, PALETTE_COLORS, 64, 5 );
             MediaToolkit::getInstance()->getClock()->startTimer ( TMR_CHAPTER, 10000 );
             m_delayed = true;
             while ( m_delayed )
             {
                 MediaToolkit::getInstance()->waitEvents();
             }
-            pal.getPalette()->fadeOut ( 0, WINDOW_COLORS, 64, 5 );
+            pal.getPalette()->fadeOut ( 0, PALETTE_COLORS, 64, 5 );
         }
         video->setMode ( LORES_HICOL );
     }
@@ -219,14 +219,14 @@ void Chapter::showMap()
         scr.getImage()->draw ( 0, 0 );
         PopUpWidget popup ( Rectangle ( 13, 160, 159, 29 ) );
         popup.draw();
-        pal.getPalette()->fadeIn ( 0, WINDOW_COLORS, 64, 5 );
+        pal.getPalette()->fadeIn ( 0, PALETTE_COLORS, 64, 5 );
         MediaToolkit::getInstance()->getClock()->startTimer ( TMR_CHAPTER, 4000 );
         m_delayed = true;
         while ( m_delayed )
         {
             MediaToolkit::getInstance()->waitEvents();
         }
-        pal.getPalette()->fadeOut ( 0, WINDOW_COLORS, 64, 5 );
+        pal.getPalette()->fadeOut ( 0, PALETTE_COLORS, 64, 5 );
     }
     catch ( Exception &e )
     {

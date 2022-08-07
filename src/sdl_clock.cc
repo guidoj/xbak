@@ -44,9 +44,9 @@ SDL_Clock::~SDL_Clock()
     m_timers.clear();
 }
 
-unsigned int SDL_Clock::getTicks() const
+unsigned long SDL_Clock::getTicks() const
 {
-    return SDL_GetTicks();
+    return SDL_GetTicks64();
 }
 
 void SDL_Clock::delay(int ms)

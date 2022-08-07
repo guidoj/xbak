@@ -32,7 +32,7 @@ private:
 public:
     SDL_Clock();
     ~SDL_Clock();
-    unsigned int getTicks() const;
+    unsigned long getTicks() const;
     void delay ( int ms );
     void startTimer ( unsigned long n, int ms );
     void stopTimer ( unsigned long n );

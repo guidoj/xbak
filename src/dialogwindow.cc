@@ -50,14 +50,14 @@ void DialogWindow::fadeIn(Palette* pal)
     m_panel->reset();
     m_panel->draw();
     PointerManager::getInstance()->getCurrentPointer()->draw();
-    pal->fadeIn(0, WINDOW_COLORS, 64, 5);
+    pal->fadeIn(0, PALETTE_COLORS, 64, 5);
 }
 
 void DialogWindow::fadeOut(Palette* pal)
 {
     m_panel->draw();
     PointerManager::getInstance()->getCurrentPointer()->draw();
-    pal->fadeOut(0, WINDOW_COLORS, 64, 5);
+    pal->fadeOut(0, PALETTE_COLORS, 64, 5);
 }
 
 void DialogWindow::leftClickWidget(const bool toggle)

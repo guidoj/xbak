@@ -55,7 +55,7 @@ public:
     void showTaggedImage ( const std::string& name );
     void showScreen ( const std::string& name );
     void drawFont ( const std::string& name );
-    void PlayMovie ( const std::string& name );
+    void playMovie ( const std::string& name );
     void playSound ( const unsigned int index );
     void walkWorld ( const std::string& zone, const std::string& tile );
     void keyPressed ( const KeyboardEvent &kbe );

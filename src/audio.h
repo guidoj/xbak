@@ -27,7 +27,9 @@ class Audio
 public:
     Audio() {};
     virtual ~Audio() {};
+    virtual int playMusic ( FileBuffer *buffer, const int repeat = 0 ) = 0;
     virtual int playSound ( FileBuffer *buffer, const int repeat = 0 ) = 0;
+    virtual void stopMusic( void ) = 0;
     virtual void stopSound ( const int channel = -1 ) = 0;
 };
 

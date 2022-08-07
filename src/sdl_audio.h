@@ -28,7 +28,9 @@ class SDL_Audio
 public:
     SDL_Audio();
     virtual ~SDL_Audio();
+    int playMusic ( FileBuffer *buffer, const int repeat = 0 );
     int playSound ( FileBuffer *buffer, const int repeat = 0 );
+    void stopMusic( void );
     void stopSound ( const int channel = -1 );
 };
 

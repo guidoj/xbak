@@ -25,7 +25,7 @@ class Clock
 public:
     Clock() {};
     virtual ~Clock() {};
-    virtual unsigned int getTicks() const = 0;
+    virtual unsigned long getTicks() const = 0;
     virtual void delay ( int ms ) = 0;
     virtual void startTimer ( unsigned long n, int ms ) = 0;
     virtual void stopTimer ( unsigned long n ) = 0;

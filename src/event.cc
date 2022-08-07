@@ -92,14 +92,14 @@ TimerEvent::getId() const
     return m_id;
 }
 
-LoopEvent::LoopEvent(const int t)
+LoopEvent::LoopEvent(const unsigned long t)
     : m_ticks(t)
 {}
 
 LoopEvent::~LoopEvent()
 {}
 
-int
+unsigned long
 LoopEvent::getTicks() const
 {
     return m_ticks;

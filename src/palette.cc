@@ -62,7 +62,7 @@ Palette::fill()
     {
         delete[] m_colors;
     }
-    m_size = WINDOW_COLORS;
+    m_size = PALETTE_COLORS;
     m_colors = new Color[m_size];
     memset(m_colors, 0, m_size * sizeof(Color));
     m_colors[0].r = 0;
@@ -100,7 +100,7 @@ Palette::retrieve(const unsigned int first, const unsigned int n)
 void
 Palette::fadeFrom(Color* from, const unsigned int first, const unsigned int n, const unsigned int steps, const unsigned int delay)
 {
-    Color* tmp = new Color[WINDOW_COLORS];
+    Color* tmp = new Color[PALETTE_COLORS];
     for (unsigned int i = 0; i <= steps; i++)
     {
         double x = (double)i / (double)steps;
@@ -121,8 +121,8 @@ Palette::fadeFrom(Color* from, const unsigned int first, const unsigned int n, c
 void
 Palette::fadeTo(Color* to, const unsigned int first, const unsigned int n, const unsigned int steps, const unsigned int delay)
 {
-    Color* tmp = new Color[WINDOW_COLORS];
-    m_media->getVideo()->getPalette(tmp, 0, WINDOW_COLORS);
+    Color* tmp = new Color[PALETTE_COLORS];
+    m_media->getVideo()->getPalette(tmp, 0, PALETTE_COLORS);
     for (unsigned int i = 0; i <= steps; i++)
     {
         double x = (double)i / (double)steps;
@@ -143,8 +143,8 @@ Palette::fadeTo(Color* to, const unsigned int first, const unsigned int n, const
 void
 Palette::fadeIn(const unsigned int first, const unsigned int n, const unsigned int steps, const unsigned int delay)
 {
-    Color* from = new Color[WINDOW_COLORS];
-    memset(from, 0, WINDOW_COLORS * sizeof(Color));
+    Color* from = new Color[PALETTE_COLORS];
+    memset(from, 0, PALETTE_COLORS * sizeof(Color));
     fadeFrom(from, first, n, steps, delay);
     delete[] from;
 }
@@ -152,8 +152,8 @@ Palette::fadeIn(const unsigned int first, const unsigned int n, const unsigned i
 void
 Palette::fadeOut(const unsigned int first, const unsigned int n, const unsigned int steps, const unsigned int delay)
 {
-    Color* to = new Color[WINDOW_COLORS];
-    memset(to, 0, WINDOW_COLORS * sizeof(Color));
+    Color* to = new Color[PALETTE_COLORS];
+    memset(to, 0, PALETTE_COLORS * sizeof(Color));
     fadeTo(to, first, n, steps, delay);
     delete[] to;
 }

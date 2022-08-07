@@ -106,7 +106,7 @@ public:
 class SDL_Exception: public Exception
 {
 public:
-    SDL_Exception ( const std::string &file, const unsigned int line, const std::string &msg );
+    SDL_Exception ( const std::string &file, const unsigned int line, const char *msg );
     virtual ~SDL_Exception() throw ();
 };
 

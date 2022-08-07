@@ -42,13 +42,13 @@ GameApplication::GameApplication()
     , m_screenSaveCount ( 0 )
 {
     MediaToolkit* media = MediaToolkit::getInstance();
-    media->getVideo()->createWindow ( 1 );
+    media->getVideo()->createWindow();
     media->getVideo()->setMode ( LORES_HICOL );
     media->getVideo()->clear();
 
     PaletteResource pal;
     pal.getPalette()->fill();
-    pal.getPalette()->activate ( 0, WINDOW_COLORS );
+    pal.getPalette()->activate ( 0, PALETTE_COLORS );
     FontResource fnt;
     FileManager::getInstance()->load ( &fnt, "GAME.FNT" );
     TextBlock txt ( "xBaK: Betrayal at Krondor  A fan-made remake", 15, 0, 0, 0, false );

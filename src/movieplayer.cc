@@ -91,7 +91,7 @@ void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
         m_currSound = 0;
         m_soundMap.clear();
         m_paletteSlot[m_currPalette] = new PaletteResource;
-        m_paletteSlot[m_currPalette]->getPalette()->retrieve ( 0, WINDOW_COLORS );
+        m_paletteSlot[m_currPalette]->getPalette()->retrieve ( 0, PALETTE_COLORS );
         m_paletteActivated = false;
 
         PointerManager::getInstance()->getCurrentPointer()->setVisible ( false );
@@ -108,7 +108,7 @@ void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
         {
             MediaToolkit::getInstance()->getClock()->stopTimer ( TMR_MOVIE_PLAYER );
         }
-        m_paletteSlot[m_currPalette]->getPalette()->fadeOut ( 0, WINDOW_COLORS, 64, 5 );
+        m_paletteSlot[m_currPalette]->getPalette()->fadeOut ( 0, PALETTE_COLORS, 64, 5 );
 
         PointerManager::getInstance()->getCurrentPointer()->setVisible ( true );
 
@@ -160,7 +160,7 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
             case SAVE_BACKGROUND:
                 if ( m_backgroundImage == 0 )
                 {
-                    m_backgroundImage = new Image ( media->getVideo()->getWidth(), media->getVideo()->getHeight() );
+                    m_backgroundImage = new Image ( WINDOW_WIDTH, WINDOW_HEIGHT );
                 }
                 m_backgroundImage->read ( 0, 0 );
                 m_backgroundImageDrawn = false;
@@ -197,7 +197,7 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 }
                 if ( !m_paletteActivated )
                 {
-                    m_paletteSlot[m_currPalette]->getPalette()->activate ( 0, WINDOW_COLORS );
+                    m_paletteSlot[m_currPalette]->getPalette()->activate ( 0, PALETTE_COLORS );
                     m_paletteActivated = true;
                 }
                 media->getVideo()->refresh();
@@ -312,12 +312,25 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
                 if ( it != m_soundMap.end() )
                 {
+                    SoundData data = m_soundSlot->getSoundData ( it->first );
                     if ( it->second >= 0 )
                     {
-                        media->getAudio()->stopSound ( it->second );
+                        if (data.type == SND_TYPE_MIDI)
+                        {
+                            media->getAudio()->stopMusic();
+                        }
+                        else
+                        {
+                            media->getAudio()->stopSound ( it->second );
+                        }
                     }
-                    SoundData data = m_soundSlot->getSoundData ( it->first );
-                    it->second = media->getAudio()->playSound ( data.sounds[0]->getSamples() );
+                    if (data.type == SND_TYPE_MIDI)
+                    {
+                        it->second = media->getAudio()->playMusic ( data.sounds[0]->getSamples() );
+                    }
+                    else{
+                        it->second = media->getAudio()->playSound ( data.sounds[0]->getSamples() );
+                    }
                 }
             }
             break;
@@ -326,9 +339,17 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
                 if ( it != m_soundMap.end() )
                 {
+                    SoundData data = m_soundSlot->getSoundData ( it->first );
                     if ( it->second >= 0 )
                     {
-                        media->getAudio()->stopSound ( it->second );
+                        if (data.type == SND_TYPE_MIDI)
+                        {
+                            media->getAudio()->stopMusic();
+                        }
+                        else
+                        {
+                            media->getAudio()->stopSound ( it->second );
+                        }
                     }
                     m_soundMap.erase ( it );
                 }

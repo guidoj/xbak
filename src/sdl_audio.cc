@@ -17,9 +17,7 @@
  * Copyright (C) 2005-2022 Guido de Jong
  */
 
-#include <SDL.h>
 #include <SDL_mixer.h>
-#include <SDL_sound.h>
 
 #include "exception.h"
 #include "sdl_audio.h"
@@ -31,84 +29,107 @@ const unsigned int AUDIO_CHANNELS        = 8;
 const unsigned int AUDIO_BUFFER_SIZE     = 4096;
 const unsigned int AUDIO_RAW_BUFFER_SIZE = 16384;
 
-SDL_mutex    *audioMutex;
-Sound_Sample *audioSample[AUDIO_CHANNELS];
+Mix_Music *playingMusic;
+bool processingChannelDone = false;
 
-void ChannelDone(int channel)
+static void MusicDone(void)
 {
-    Mix_FreeChunk(Mix_GetChunk(channel));
-    SDL_LockMutex(audioMutex);
-    if (audioSample[channel])
+    if (playingMusic != 0)
     {
-        Sound_FreeSample(audioSample[channel]);
-        audioSample[channel] = 0;
+        Mix_FreeMusic( playingMusic );
+        playingMusic = 0;
     }
-    SDL_UnlockMutex(audioMutex);
+}
+
+static void ChannelDone(int channel)
+{
+    if (!processingChannelDone)
+    {
+        processingChannelDone = true;
+        if (channel < 0)
+        {
+            throw DataCorruption(__FILE__, __LINE__);
+        }
+        Mix_Chunk *chunk = Mix_GetChunk(channel);
+        if (chunk != 0)
+        {
+            Mix_FreeChunk(chunk);
+        }
+        processingChannelDone = false;
+    }
 }
 
 SDL_Audio::SDL_Audio()
 {
-    memset(audioSample, 0, sizeof(audioSample));
-    audioMutex = SDL_CreateMutex();
-    if (!audioMutex)
+    if ((Mix_Init(MIX_INIT_MID) & MIX_INIT_MID) == 0)
     {
-        throw SDL_Exception(__FILE__, __LINE__, SDL_GetError());
+        throw SDL_Exception(__FILE__, __LINE__, "No MIDI support!");
     }
-    Mix_Init(0);
+    if (Mix_SetTimidityCfg("./timidity/timidity.cfg") == 0)
+    {
+        throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
+    }
     if (Mix_OpenAudio(AUDIO_FREQUENCY, AUDIO_FORMAT, AUDIO_STEREO, AUDIO_BUFFER_SIZE) < 0)
     {
         throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
     }
-    Mix_AllocateChannels(AUDIO_CHANNELS);
-    Mix_ChannelFinished(ChannelDone);
-    if (Mix_VolumeMusic(90) < 0)
+    if (Mix_AllocateChannels(AUDIO_CHANNELS) != AUDIO_CHANNELS)
     {
         throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
     }
-    if (!Sound_Init())
+    Mix_ChannelFinished(ChannelDone);
+    Mix_HookMusicFinished(MusicDone);
+    if (Mix_Volume(-1, 90) < 0)
     {
-        throw SDL_Exception(__FILE__, __LINE__, Sound_GetError());
+        throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
+    }
+    if (Mix_VolumeMusic(90) < 0)
+    {
+        throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
     }
 }
 
 SDL_Audio::~SDL_Audio()
 {
+    Mix_HaltMusic();
     Mix_HaltChannel(-1);
-    if (!Sound_Quit())
-    {
-        throw SDL_Exception(__FILE__, __LINE__, Sound_GetError());
-    }
     Mix_CloseAudio();
     Mix_Quit();
-    if (audioMutex)
+}
+
+int SDL_Audio::playMusic(FileBuffer *buffer, const int repeat)
+{
+    if (!Mix_PlayingMusic())
     {
-        SDL_DestroyMutex(audioMutex);
+        buffer->rewind();
+        SDL_RWops *rwops = SDL_RWFromMem(buffer->getCurrent(), buffer->getSize());
+        if (!rwops)
+        {
+            throw SDL_Exception(__FILE__, __LINE__, SDL_GetError());
+        }
+        Mix_Music *music = Mix_LoadMUS_RW(rwops, 1);
+        if (!music)
+        {
+            throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
+        }
+        if (Mix_PlayMusic(music, repeat))
+        {
+            throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
+        }
+        playingMusic = music;
     }
+    return AUDIO_CHANNELS;
 }
 
 int SDL_Audio::playSound(FileBuffer *buffer, const int repeat)
 {
-    static Sound_AudioInfo info =
-    {
-        AUDIO_FORMAT, AUDIO_STEREO, AUDIO_FREQUENCY
-    };
     buffer->rewind();
     SDL_RWops *rwops = SDL_RWFromMem(buffer->getCurrent(), buffer->getSize());
     if (!rwops)
     {
         throw SDL_Exception(__FILE__, __LINE__, SDL_GetError());
     }
-    Sound_Sample *sample = Sound_NewSample(rwops, 0, &info, AUDIO_RAW_BUFFER_SIZE);
-    if (!sample)
-    {
-        throw SDL_Exception(__FILE__, __LINE__, Sound_GetError());
-    }
-    unsigned int decoded = Sound_DecodeAll(sample);
-    if (sample->flags & SOUND_SAMPLEFLAG_ERROR)
-    {
-        throw SDL_Exception(__FILE__, __LINE__, Sound_GetError());
-    }
-    Mix_Chunk *chunk = Mix_QuickLoad_RAW((Uint8*)sample->buffer, decoded);
+    Mix_Chunk *chunk = Mix_LoadWAV_RW(rwops, 1);
     if (!chunk)
     {
         throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
@@ -118,16 +139,12 @@ int SDL_Audio::playSound(FileBuffer *buffer, const int repeat)
     {
         throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
     }
-    if (SDL_LockMutex(audioMutex) < 0)
-    {
-        throw SDL_Exception(__FILE__, __LINE__, SDL_GetError());
-    }
-    audioSample[channel] = sample;
-    if (SDL_UnlockMutex(audioMutex) < 0)
-    {
-        throw SDL_Exception(__FILE__, __LINE__, SDL_GetError());
-    }
     return channel;
+}
+
+void SDL_Audio::stopMusic(void)
+{
+    Mix_HaltMusic();
 }
 
 void SDL_Audio::stopSound(const int channel)

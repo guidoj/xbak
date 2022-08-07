@@ -20,27 +20,9 @@
 #include "video.h"
 
 Video::Video()
-    : m_width(0)
-    , m_height(0)
-    , m_scaling(1)
 {
 }
 
 Video::~Video()
 {
-}
-
-int Video::getWidth() const
-{
-    return m_width;
-}
-
-int Video::getHeight() const
-{
-    return m_height;
-}
-
-unsigned int Video::getScaling() const
-{
-    return m_scaling;
 }

@@ -119,9 +119,8 @@ target_link_libraries(xbak
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES}                      )
 
 add_executable(convertresource
                convertresource.cc
@@ -131,18 +130,15 @@ target_link_libraries(convertresource
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpads
                dumpads.cc)
 target_link_libraries(dumpads
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpbmx
                dumpbmx.cc)
@@ -151,27 +147,22 @@ target_link_libraries(dumpbmx
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpbok
                dumpbok.cc)
 target_link_libraries(dumpbok
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpddx
                dumpddx.cc)
 target_link_libraries(dumpddx
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpfnt
                dumpfnt.cc)
@@ -180,9 +171,8 @@ target_link_libraries(dumpfnt
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpgam
                dumpgam.cc)
@@ -192,27 +182,22 @@ target_link_libraries(dumpgam
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumplbl
                dumplbl.cc)
 target_link_libraries(dumplbl
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpobj
                dumpobj.cc)
 target_link_libraries(dumpobj
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumppal
                dumppal.cc)
@@ -221,18 +206,15 @@ target_link_libraries(dumppal
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpreq
                dumpreq.cc)
 target_link_libraries(dumpreq
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpscx
                dumpscx.cc)
@@ -241,9 +223,8 @@ target_link_libraries(dumpscx
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpsnd
                dumpsnd.cc)
@@ -252,36 +233,29 @@ target_link_libraries(dumpsnd
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumptbl
                dumptbl.cc)
 target_link_libraries(dumptbl
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpttm
                dumpttm.cc)
 target_link_libraries(dumpttm
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(dumpwld
                dumpwld.cc)
 target_link_libraries(dumpwld
                       resource
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      ${SDL2_LIBRARIES})
 
 add_executable(resourcedemo
                resourcedemo.cc
@@ -291,6 +265,5 @@ target_link_libraries(resourcedemo
                       resource
                       driver
                       base
-                      ${SDL_LIBRARY}
-                      ${SDL_MIXER_LIBRARIES}
-                      ${SDL_SOUND_LIBRARIES})
+                      SDL2_mixer::SDL2_mixer
+                      ${SDL2_LIBRARIES})

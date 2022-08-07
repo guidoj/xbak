@@ -37,7 +37,7 @@ TestApplication::TestApplication()
     , m_wld()
 {
     MediaToolkit *media = MediaToolkit::getInstance();
-    media->getVideo()->createWindow ( 1 );
+    media->getVideo()->createWindow();
     media->getVideo()->setMode ( LORES_HICOL );
     PointerManager::getInstance()->addPointer ( "POINTER.BMX" );
     media->addKeyboardListener ( this );
@@ -82,7 +82,7 @@ void TestApplication::activatePalette()
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::ActivatePalette" );
+        e.print ( "TestApplication::activatePalette" );
     }
 }
 
@@ -95,7 +95,7 @@ void TestApplication::activatePalette ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::ActivatePalette" );
+        e.print ( "TestApplication::activatePalette" );
     }
 }
 
@@ -117,7 +117,7 @@ void TestApplication::showImage ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::ShowImage" );
+        e.print ( "TestApplication::showImage" );
     }
 }
 
@@ -139,7 +139,7 @@ void TestApplication::showTaggedImage ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::ShowImage" );
+        e.print ( "TestApplication::showImage" );
     }
 }
 
@@ -151,7 +151,7 @@ void TestApplication::showScreen ( const std::string& name )
         FileManager::getInstance()->load ( &m_scr, name );
         if ( m_scr.getImage()->isHighResLowCol() )
         {
-            media->getVideo()->setMode ( HIRES_LOWCOL );
+            media->getVideo()->setMode ( HIRES_LOCOL );
         }
         media->getVideo()->clear();
         m_scr.getImage()->draw ( 0, 0 );
@@ -162,7 +162,7 @@ void TestApplication::showScreen ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::ShowScreen" );
+        e.print ( "TestApplication::showScreen" );
     }
 }
 
@@ -194,11 +194,11 @@ void TestApplication::drawFont ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::DrawFont" );
+        e.print ( "TestApplication::drawFont" );
     }
 }
 
-void TestApplication::PlayMovie ( const std::string& name )
+void TestApplication::playMovie ( const std::string& name )
 {
     try
     {
@@ -208,7 +208,7 @@ void TestApplication::PlayMovie ( const std::string& name )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::PlayMovie" );
+        e.print ( "TestApplication::playMovie" );
     }
 }
 
@@ -218,7 +218,15 @@ void TestApplication::playSound ( const unsigned int index )
     {
         MediaToolkit *media = MediaToolkit::getInstance();
         SoundData data = SoundResource::getInstance()->getSoundData ( index );
-        unsigned int channel = MediaToolkit::getInstance()->getAudio()->playSound ( data.sounds[0]->getSamples() );
+        unsigned int channel = -1;
+        if (data.type == SND_TYPE_MIDI)
+        {
+            channel = media->getAudio()->playMusic ( data.sounds[0]->getSamples() );
+        }
+        else
+        {
+            channel = media->getAudio()->playSound ( data.sounds[0]->getSamples() );
+        }
         media->getClock()->startTimer ( TMR_TEST_APP, ( index < 1000 ? 5000 : 30000 ) );
         media->waitEventLoop();
         media->getClock()->stopTimer ( TMR_TEST_APP );
@@ -226,7 +234,7 @@ void TestApplication::playSound ( const unsigned int index )
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::PlaySound" );
+        e.print ( "TestApplication::playSound" );
     }
 }
 
@@ -261,7 +269,7 @@ void TestApplication::walkWorld ( const std::string& zone, const std::string& ti
     }
     catch ( Exception &e )
     {
-        e.print ( "TestApplication::PlayMovie" );
+        e.print ( "TestApplication::walkWorld" );
     }
 }
 

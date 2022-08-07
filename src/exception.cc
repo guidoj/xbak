@@ -143,7 +143,7 @@ OpenError::OpenError(const std::string &file, const unsigned int line, const std
 OpenError::~OpenError() throw()
 {}
 
-SDL_Exception::SDL_Exception(const std::string &file, const unsigned int line, const std::string &msg)
+SDL_Exception::SDL_Exception(const std::string &file, const unsigned int line, const char *msg)
     : Exception(file, line, SDL_EXCEPTION + " " + msg)
 {}
 

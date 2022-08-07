@@ -64,7 +64,7 @@ void Dialog::enter()
     }
     catch (Exception &e)
     {
-        e.print("Dialog::Enter");
+        e.print("Dialog::enter");
         throw;
     }
 }
@@ -86,7 +86,7 @@ void Dialog::leave()
     }
     catch (Exception &e)
     {
-        e.print("Dialog::Leave");
+        e.print("Dialog::leave");
         throw;
     }
 }

@@ -26,7 +26,7 @@ const unsigned int MAX_NUM_SFX = 1000;
 
 SoundData::SoundData()
     : name()
-    , type(0)
+    , type(SND_TYPE_UNKNOWN)
     , sounds()
 {
 }
@@ -120,7 +120,7 @@ void SoundResource::load(FileBuffer *buffer)
                 }
                 SoundData data;
                 data.name = name;
-                data.type = buffer->getUint8();
+                data.type = (SoundType)buffer->getUint8();
                 buffer->skip(2);
                 FileBuffer *sndbuf = new FileBuffer(buffer->getUint32LE() - 2);
                 buffer->skip(2);
