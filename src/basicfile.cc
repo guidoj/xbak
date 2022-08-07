@@ -176,7 +176,7 @@ BasicFile::load(FileBuffer &buffer)
     }
     catch (Exception &e)
     {
-        e.print("BasicFile::Load");
+        e.print("BasicFile::load");
         throw;
     }
 }
@@ -190,7 +190,7 @@ BasicFile::save(FileBuffer &buffer)
     }
     catch (Exception &e)
     {
-        e.print("BasicFile::Save");
+        e.print("BasicFile::save");
         throw;
     }
 }
@@ -204,7 +204,7 @@ BasicFile::save(FileBuffer &buffer, const unsigned int n)
     }
     catch (Exception &e)
     {
-        e.print("BasicFile::Save");
+        e.print("BasicFile::save");
         throw;
     }
 }

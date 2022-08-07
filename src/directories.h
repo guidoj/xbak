@@ -31,6 +31,7 @@ private:
     std::string m_gamesPath;
     std::string m_capturePath;
     std::string m_dataPath;
+    std::string m_timidityPath;
     static Directories *m_instance;
     void createPath ( const std::string& path );
     void verifyPath ( const std::string& path ) const;
@@ -48,6 +49,7 @@ public:
     std::string getGamesPath() const;
     std::string getCapturePath() const;
     std::string getDataPath() const;
+    std::string getTimidityPath() const;
     void setResourcePath ( const std::string &path );
 };
 

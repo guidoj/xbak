@@ -116,7 +116,7 @@ FontResource::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("FontResource::Save");
+        e.print("FontResource::save");
         throw;
     }
 }

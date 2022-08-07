@@ -37,7 +37,7 @@ ResourceArchive::loadResource(FileBuffer &buffer, const std::streamoff offset)
     }
     catch (Exception &e)
     {
-        e.print("ResourceArchive::LoadResource");
+        e.print("ResourceArchive::loadResource");
         throw;
     }
 }

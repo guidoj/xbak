@@ -1,4 +1,5 @@
 2022-xx-yy, xbak-0.1.6:
+* Migrated to SDL2
 * Changed the build system to CMake.
 * Renamed all files to lower case.
 * Updated coding style.

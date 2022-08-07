@@ -37,6 +37,7 @@ Directories::Directories()
     , m_gamesPath()
     , m_capturePath()
     , m_dataPath()
+    , m_timidityPath()
 {
 }
 
@@ -70,33 +71,25 @@ Directories::initialize()
     {
         m_resourcePath = searchResources();
     }
-    else
-    {
-
-    }
-#if defined(DATADIR) && defined(PACKAGE)
-    sharedPath = std::string(DATADIR) + std::string(PACKAGE) + "/";
-#else
     m_sharedPath = "";
-#endif
 #if defined(WIN32) || defined(__MACOS__) || defined(__MACOSX__) || defined(__APPLE__) || defined(__APPLE_CC__)
-    userPath = "";
-    gamesPath = "";
-    capturePath = "";
-    dataPath = "";
+    m_userPath = "";
+    m_gamesPath = "";
+    m_capturePath = "";
+    m_dataPath = "";
+    m_timidityPath = "";
 #else
-    m_userPath = std::string(getenv("HOME")) + "/";
-#if defined(PACKAGE)
-    userPath += "." + std::string(PACKAGE) + "/";
-#endif
-    m_gamesPath = m_userPath + "/games/";
-    m_capturePath = m_userPath + "/capture/";
-    m_dataPath = m_userPath + "/data/";
+    m_userPath = std::string(getenv("HOME")) + "/xbak/";
+    m_gamesPath = m_userPath + "games/";
+    m_capturePath = m_userPath + "capture/";
+    m_dataPath = m_userPath + "data/";
+    m_timidityPath = m_userPath + "timidity/";
 #endif
     createPath(m_userPath);
     createPath(m_gamesPath);
     createPath(m_capturePath);
     createPath(m_dataPath);
+    createPath(m_timidityPath);
 }
 
 void
@@ -221,4 +214,10 @@ std::string
 Directories::getDataPath() const
 {
     return m_dataPath;
+}
+
+std::string
+Directories::getTimidityPath() const
+{
+    return m_timidityPath;
 }

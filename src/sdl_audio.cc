@@ -19,6 +19,7 @@
 
 #include <SDL_mixer.h>
 
+#include "directories.h"
 #include "exception.h"
 #include "sdl_audio.h"
 
@@ -65,7 +66,8 @@ SDL_Audio::SDL_Audio()
     {
         throw SDL_Exception(__FILE__, __LINE__, "No MIDI support!");
     }
-    if (Mix_SetTimidityCfg("./timidity/timidity.cfg") == 0)
+    std::string timidityConfig(Directories::getInstance()->getTimidityPath() + "timidity.cfg");
+    if (Mix_SetTimidityCfg(timidityConfig.c_str()) == 0)
     {
         throw SDL_Exception(__FILE__, __LINE__, Mix_GetError());
     }
