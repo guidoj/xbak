@@ -52,7 +52,7 @@ private:
 public:
     TextBlock();
     TextBlock ( const std::string& s, int c, int sh, int shx, int shy, bool it );
-    ~TextBlock();
+    virtual ~TextBlock();
     void setColor ( int c );
     int getColor() const
     {
@@ -96,7 +96,7 @@ private:
     void copyFirstWord ( std::string& s, std::string& word, int& wordWidth );
 public:
     TextLine ( Font *f );
-    ~TextLine();
+    virtual ~TextLine();
     void setIndent ( int i );
     void clear();
     void addWords ( TextBlock& tb, int w );
@@ -118,7 +118,7 @@ private:
     int m_indent;
 public:
     Paragraph ( Font *f );
-    ~Paragraph();
+    virtual ~Paragraph();
     unsigned int getSize() const;
     const std::vector<TextLine>& getLines() const;
     void clear();
@@ -137,7 +137,7 @@ private:
     unsigned int m_currentLine;
 public:
     Text();
-    ~Text();
+    virtual ~Text();
     unsigned int getSize() const;
     void addParagraph ( const Paragraph& p );
     void generateLines ( int width, int initialIndent );

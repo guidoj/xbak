@@ -88,10 +88,12 @@ class ObjectResource
 private:
     std::vector<ObjectInfo> m_data;
     static ObjectResource *m_instance;
+
 protected:
     ObjectResource();
+
 public:
-    ~ObjectResource();
+    virtual ~ObjectResource();
     static ObjectResource* getInstance();
     static void cleanUp();
     unsigned int getSize() const;

@@ -43,10 +43,12 @@ private:
     TileWorldResource m_wld;
     SoundResource* m_snd;
     static TestApplication *m_instance;
+
 protected:
     TestApplication();
+
 public:
-    ~TestApplication();
+    virtual ~TestApplication();
     static TestApplication* getInstance();
     static void cleanUp();
     void activatePalette();

@@ -31,7 +31,7 @@ private:
     void addTiledObjects ( Scene* scene, unsigned int x, unsigned int y, Image *terrainTexture );
 public:
     SceneFactory( Zone &z );
-    ~SceneFactory();
+    virtual ~SceneFactory();
     Scene * createScene();
 };
 

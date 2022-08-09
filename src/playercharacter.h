@@ -55,9 +55,10 @@ private:
     CharacterClass m_charClass;
     ConditionType m_condition;
     Inventory *m_inventory;
+
 public:
     PlayerCharacter ( const std::string& s );
-    ~PlayerCharacter();
+    virtual ~PlayerCharacter();
     std::string& getName();
     void setName ( const std::string& s );
     Statistics& getStatistics();

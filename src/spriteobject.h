@@ -30,7 +30,7 @@ private:
     Image *m_sprite;
 public:
     SpriteObject ( const Vector2D &p, Image *img );
-    ~SpriteObject();
+    virtual ~SpriteObject();
     void calculateRelativePosition ( const Vector2D &p );
     bool isInView ( const Angle & heading, unsigned int & distance );
     void drawFirstPerson ( const int x, const int y, const int w, const int h, Camera *cam );

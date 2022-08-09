@@ -30,7 +30,7 @@ private:
 protected:
     PreferencesDialogBridge();
 public:
-    ~PreferencesDialogBridge();
+    virtual ~PreferencesDialogBridge();
     static PreferencesDialogBridge* getInstance();
     static void cleanUp();
     void fetch();

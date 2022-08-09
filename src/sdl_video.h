@@ -51,7 +51,7 @@ private:
 
 public:
     SDL_Video();
-    ~SDL_Video();
+    virtual ~SDL_Video();
     void setMode ( const VideoMode m );
     void createWindow();
     void drawHLine ( const int x, const int y, const int w, const unsigned int c );

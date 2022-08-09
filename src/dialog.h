@@ -53,7 +53,7 @@ class GameDialog
 {
 public:
     GameDialog ( Palette *pal, DialogWindow *dialogwin );
-    ~GameDialog();
+    virtual ~GameDialog();
     void keyPressed ( const KeyboardEvent& kbe );
     void keyReleased ( const KeyboardEvent& kbe );
 };
@@ -63,7 +63,7 @@ class OptionsDialog
 {
 public:
     OptionsDialog ( Palette *pal, DialogWindow *dialogwin );
-    ~OptionsDialog();
+    virtual ~OptionsDialog();
     void keyPressed ( const KeyboardEvent& kbe );
     void keyReleased ( const KeyboardEvent& kbe );
 };

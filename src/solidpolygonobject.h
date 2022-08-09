@@ -30,7 +30,7 @@ private:
     const unsigned int m_color;
 public:
     SolidPolygonObject( const Vector2D& p, const unsigned int c );
-    ~SolidPolygonObject();
+    virtual ~SolidPolygonObject();
     void drawFirstPerson ( const int x, const int y, const int w, const int h, Camera *cam );
     void drawTopDown();
 };

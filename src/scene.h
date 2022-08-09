@@ -40,7 +40,7 @@ private:
     void drawZBuffer ( const int x, const int y, const int w, const int h, Camera *cam );
 public:
     Scene ( Image *horizon, Image *terrain );
-    ~Scene();
+    virtual ~Scene();
     void addObject ( const Vector2D &cell, GenericObject *obj );
     void drawFirstPerson ( const int x, const int y, const int w, const int h, Camera *cam );
     void drawTopDown();

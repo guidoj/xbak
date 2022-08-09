@@ -50,7 +50,7 @@ private:
 protected:
     GameStateCamp();
 public:
-    ~GameStateCamp();
+    virtual ~GameStateCamp();
     static GameStateCamp* getInstance();
     static void cleanUp();
     void enter();
@@ -67,7 +67,7 @@ private:
 protected:
     GameStateCast();
 public:
-    ~GameStateCast();
+    virtual ~GameStateCast();
     static GameStateCast* getInstance();
     static void cleanUp();
     void enter();
@@ -83,7 +83,7 @@ private:
 protected:
     GameStateChapter();
 public:
-    ~GameStateChapter();
+    virtual ~GameStateChapter();
     static GameStateChapter* getInstance();
     static void cleanUp();
     void enter();
@@ -99,7 +99,7 @@ private:
 protected:
     GameStateCombat();
 public:
-    ~GameStateCombat();
+    virtual ~GameStateCombat();
     static GameStateCombat* getInstance();
     static void cleanUp();
     void enter();
@@ -116,7 +116,7 @@ private:
 protected:
     GameStateContents();
 public:
-    ~GameStateContents();
+    virtual ~GameStateContents();
     static GameStateContents* getInstance();
     static void cleanUp();
     void enter();
@@ -133,7 +133,7 @@ private:
 protected:
     GameStateFullMap();
 public:
-    ~GameStateFullMap();
+    virtual ~GameStateFullMap();
     static GameStateFullMap* getInstance();
     static void cleanUp();
     void enter();
@@ -150,7 +150,7 @@ private:
 protected:
     GameStateInitialOptions();
 public:
-    ~GameStateInitialOptions();
+    virtual ~GameStateInitialOptions();
     static GameStateInitialOptions* getInstance();
     static void cleanUp();
     void enter();
@@ -166,7 +166,7 @@ private:
 protected:
     GameStateIntro();
 public:
-    ~GameStateIntro();
+    virtual ~GameStateIntro();
     static GameStateIntro* getInstance();
     static void cleanUp();
     void enter();
@@ -183,7 +183,7 @@ private:
 protected:
     GameStateInventory();
 public:
-    ~GameStateInventory();
+    virtual ~GameStateInventory();
     static GameStateInventory* getInstance();
     static void cleanUp();
     void enter();
@@ -200,7 +200,7 @@ private:
 protected:
     GameStateLoad();
 public:
-    ~GameStateLoad();
+    virtual ~GameStateLoad();
     static GameStateLoad* getInstance();
     static void cleanUp();
     void enter();
@@ -217,7 +217,7 @@ private:
 protected:
     GameStateMap();
 public:
-    ~GameStateMap();
+    virtual ~GameStateMap();
     static GameStateMap* getInstance();
     static void cleanUp();
     void enter();
@@ -234,7 +234,7 @@ private:
 protected:
     GameStateOptions();
 public:
-    ~GameStateOptions();
+    virtual ~GameStateOptions();
     static GameStateOptions* getInstance();
     static void cleanUp();
     void enter();
@@ -251,7 +251,7 @@ private:
 protected:
     GameStatePreferences();
 public:
-    ~GameStatePreferences();
+    virtual ~GameStatePreferences();
     static GameStatePreferences* getInstance();
     static void cleanUp();
     void enter();
@@ -268,7 +268,7 @@ private:
 protected:
     GameStateInfo();
 public:
-    ~GameStateInfo();
+    virtual ~GameStateInfo();
     static GameStateInfo* getInstance();
     static void cleanUp();
     void enter();
@@ -285,7 +285,7 @@ private:
 protected:
     GameStateSave();
 public:
-    ~GameStateSave();
+    virtual ~GameStateSave();
     static GameStateSave* getInstance();
     static void cleanUp();
     void enter();
@@ -304,7 +304,7 @@ private:
 protected:
     GameStateWorld();
 public:
-    ~GameStateWorld();
+    virtual ~GameStateWorld();
     static GameStateWorld* getInstance();
     static void cleanUp();
     void enter();

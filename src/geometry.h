@@ -42,7 +42,8 @@ private:
     static double m_tanTbl[ANGLE_SIZE];
 public:
     Angle ( const int a );
-    ~Angle();
+    Angle ( const Angle &a );
+    virtual ~Angle();
     int get() const;
     void set ( const int a );
     double getCos() const;

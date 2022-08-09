@@ -41,10 +41,12 @@ private:
     void saveResource ( const std::string &name, FileBuffer* buffer );
     void saveResource ( const std::string &name, FileBuffer* buffer, const unsigned int n );
     static FileManager *m_instance;
+
 protected:
     FileManager();
+
 public:
-    ~FileManager();
+    virtual ~FileManager();
     static FileManager* getInstance();
     static void cleanUp();
     bool configExists ( const std::string &name );

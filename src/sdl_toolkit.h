@@ -36,7 +36,7 @@ private:
 
 public:
     SDL_Toolkit();
-    ~SDL_Toolkit();
+    virtual ~SDL_Toolkit();
     void pollEvents();
     void pollEventLoop();
     void waitEvents();

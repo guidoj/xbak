@@ -92,7 +92,7 @@ public:
     std::vector <Vector2D *> textureCoords;
     std::vector <Vector2D *> otherCoords;
     GidInfo();
-    ~GidInfo();
+    virtual ~GidInfo();
 };
 
 class DatInfo
@@ -108,7 +108,7 @@ public:
     Vector3D pos;
     std::vector<Vector3D *> vertices;
     DatInfo();
-    ~DatInfo();
+    virtual ~DatInfo();
 };
 
 class TableResource

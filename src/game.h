@@ -37,7 +37,7 @@ private:
     ImageResource m_buttonImages;
 public:
     Game();
-    ~Game();
+    virtual ~Game();
     std::string& getName();
     void setName ( const std::string& s );
     Party* getParty() const;

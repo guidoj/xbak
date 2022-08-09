@@ -37,7 +37,7 @@ private:
     Angle m_heading;
 public:
     Orientation ( const int head );
-    ~Orientation();
+    virtual ~Orientation();
     const Angle & getAngle() const;
     int getHeading() const;
     void setHeading ( const int head );

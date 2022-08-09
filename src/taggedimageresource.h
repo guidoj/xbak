@@ -32,7 +32,7 @@ private:
     std::vector<Image *> m_images;
 public:
     TaggedImageResource();
-    ~TaggedImageResource();
+    virtual ~TaggedImageResource();
     unsigned int getNumImages() const;
     Image * getImage ( unsigned int n ) const;
     void clear();

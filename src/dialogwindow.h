@@ -29,7 +29,7 @@ private:
     PanelWidget *m_panel;
 public:
     DialogWindow ( PanelWidget *panelwidget );
-    ~DialogWindow();
+    virtual ~DialogWindow();
     const Rectangle& getRectangle() const;
     void draw();
     void fadeIn ( Palette* pal );

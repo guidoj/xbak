@@ -30,7 +30,7 @@ private:
     unsigned int m_numActiveMembers;
 public:
     Party();
-    ~Party();
+    virtual ~Party();
     unsigned int getNumMembers() const;
     PlayerCharacter* getMember ( const unsigned int n );
     void addMember ( PlayerCharacter *pc );

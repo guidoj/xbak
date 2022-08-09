@@ -60,7 +60,7 @@ private:
     void playChunk ( MediaToolkit* media );
 public:
     MoviePlayer();
-    ~MoviePlayer();
+    virtual ~MoviePlayer();
     void play ( std::vector<MovieChunk *> *movie, const bool repeat );
     void keyPressed ( const KeyboardEvent& kbe );
     void keyReleased ( const KeyboardEvent& kbe );

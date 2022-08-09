@@ -32,7 +32,7 @@ private:
     Orientation m_orientation;
 public:
     Camera ( const Vector2D &p, const int heading );
-    ~Camera();
+    virtual ~Camera();
     const Position & getPosition() const;
     const Vector2D & getPos() const;
     void setPosition ( const Vector2D &p );

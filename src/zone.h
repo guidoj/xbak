@@ -37,7 +37,7 @@ private:
     TableResource *m_table;
 public:
     Zone();
-    ~Zone();
+    virtual ~Zone();
     void clear();
     void load ( const unsigned int n );
     Image* getHorizon ( const unsigned int n );

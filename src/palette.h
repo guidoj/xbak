@@ -31,7 +31,7 @@ private:
     MediaToolkit *m_media;
 public:
     Palette ( const unsigned int n );
-    ~Palette();
+    virtual ~Palette();
     unsigned int getSize() const;
     Color& getColor ( const unsigned int i ) const;
     void setColor ( const unsigned int i, const Color &c );

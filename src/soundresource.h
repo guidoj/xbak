@@ -37,7 +37,7 @@ class SoundData
 {
 public:
     SoundData();
-    ~SoundData();
+    virtual ~SoundData();
     std::string name;
     SoundType type;
     std::vector<Sound *> sounds;
@@ -49,10 +49,12 @@ class SoundResource
 private:
     std::map<unsigned int, SoundData> m_soundMap;
     static SoundResource* m_instance;
+
 protected:
     SoundResource();
+
 public:
-    ~SoundResource();
+    virtual ~SoundResource();
     static SoundResource* getInstance();
     static void cleanUp();
     void clear();

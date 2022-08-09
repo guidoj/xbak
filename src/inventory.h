@@ -51,7 +51,7 @@ private:
     std::list<InventoryData>::iterator find ( UsableInventoryItem* item );
 public:
     Inventory();
-    ~Inventory();
+    virtual ~Inventory();
     unsigned int getSize() const;
     InventoryItem* getItem ( const unsigned int n ) const;
     void add ( InventoryItem *item );

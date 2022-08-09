@@ -30,7 +30,7 @@ private:
     const Image *m_texture;
 public:
     PatternPolygonObject( const Vector2D& p, const Image *image );
-    ~PatternPolygonObject();
+    virtual ~PatternPolygonObject();
     void drawFirstPerson ( const int x, const int y, const int w, const int h, Camera *cam );
     void drawTopDown();
 };

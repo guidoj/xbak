@@ -90,6 +90,7 @@ int main ( int argc, char **argv )
 {
     try
     {
+        Directories::getInstance()->initialize();
         CommandType ct = get_command_type ( argv[1] );
         switch ( ct )
         {

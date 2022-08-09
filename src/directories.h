@@ -36,10 +36,12 @@ private:
     void createPath ( const std::string& path );
     void verifyPath ( const std::string& path ) const;
     std::string searchResources() const;
+
 protected:
     Directories();
+
 public:
-    ~Directories();
+    virtual ~Directories();
     static Directories* getInstance();
     static void cleanUp();
     void initialize();

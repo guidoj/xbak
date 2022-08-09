@@ -39,6 +39,11 @@ Angle::Angle ( const int a )
     }
 }
 
+Angle::Angle ( const Angle& a )
+    : m_angle ( a.m_angle )
+{
+}
+
 Angle::~Angle()
 {
 }

@@ -40,7 +40,7 @@ public:
     Image ( Image *img );
     Image ( const int w, const int h, Image *img );
     Image ( const int w, const int h, std::vector<Image *> &img );
-    ~Image();
+    virtual ~Image();
     int getWidth() const;
     int getHeight() const;
     unsigned int getSize() const;

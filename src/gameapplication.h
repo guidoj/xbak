@@ -38,11 +38,14 @@ private:
     GameState *m_state;
     int m_screenSaveCount;
     static GameApplication *m_instance;
+
     void setState ( GameState *st );
+
 protected:
     GameApplication();
+
 public:
-    ~GameApplication();
+    virtual ~GameApplication();
     static GameApplication* getInstance();
     static void cleanUp();
     Preferences* getPreferences();

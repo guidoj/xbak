@@ -34,7 +34,7 @@ private:
 public:
     Position ( const Vector2D &p );
     Position ( const Vector2D &p, const Vector2D &c );
-    ~Position();
+    virtual ~Position();
     const Vector2D & getCell() const;
     const Vector2D & getPos() const;
     void setPos ( const Vector2D &p );

@@ -56,7 +56,7 @@ private:
     bool m_introduction;
 public:
     Preferences();
-    ~Preferences();
+    virtual ~Preferences();
     void setDefaults();
     void copy ( const Preferences &prefs );
     StepTurnSize getStepSize() const;

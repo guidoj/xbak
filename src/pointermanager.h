@@ -38,10 +38,12 @@ private:
     std::vector<Pointer *> m_pointerVec;
     std::list<DragEventListener *> m_dragListeners;
     static PointerManager *m_instance;
+
 protected:
     PointerManager();
+
 public:
-    ~PointerManager();
+    virtual ~PointerManager();
     static PointerManager* getInstance();
     static void cleanUp();
     Pointer* getCurrentPointer();

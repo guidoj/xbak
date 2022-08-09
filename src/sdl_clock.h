@@ -31,7 +31,7 @@ private:
     std::map <const unsigned long, SDL_TimerID> m_timers;
 public:
     SDL_Clock();
-    ~SDL_Clock();
+    virtual ~SDL_Clock();
     unsigned long getTicks() const;
     void delay ( int ms );
     void startTimer ( unsigned long n, int ms );
