@@ -149,7 +149,7 @@ void GameApplication::playIntro()
         MovieResource ttm;
         FileManager::getInstance()->load ( &ttm, anim.getAnimationData ( 1 ).m_resource );
         MoviePlayer moviePlayer;
-        moviePlayer.play ( &ttm.getMovieChunks(), true );
+        moviePlayer.play ( &ttm.getMovieTags(), true );
     }
     catch ( Exception &e )
     {

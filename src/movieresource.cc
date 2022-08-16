@@ -28,7 +28,7 @@ MovieResource::MovieResource()
     : TaggedResource()
     , m_version("")
     , m_pages(0)
-    , m_movieChunks()
+    , m_movieTags()
 {}
 
 MovieResource::~MovieResource()
@@ -48,21 +48,21 @@ MovieResource::getPages() const
     return m_pages;
 }
 
-std::vector<MovieChunk *> &
-MovieResource::getMovieChunks()
+std::vector<MovieTag *> &
+MovieResource::getMovieTags()
 {
-    return m_movieChunks;
+    return m_movieTags;
 }
 
 void
 MovieResource::clear()
 {
-    for (unsigned int i = 0; i < m_movieChunks.size(); i++)
+    for (unsigned int i = 0; i < m_movieTags.size(); i++)
     {
-        m_movieChunks[i]->data.clear();
-        delete m_movieChunks[i];
+        m_movieTags[i]->data.clear();
+        delete m_movieTags[i];
     }
-    m_movieChunks.clear();
+    m_movieTags.clear();
 }
 
 void
@@ -93,7 +93,7 @@ MovieResource::load(FileBuffer *buffer)
         tags.load(tagbuf);
         while (!tmpbuf->atEnd())
         {
-            MovieChunk *mc = new MovieChunk;
+            MovieTag *mc = new MovieTag;
             unsigned int code = tmpbuf->getUint16LE();
             unsigned int size = code & 0x000f;
             code &= 0xfff0;
@@ -124,7 +124,7 @@ MovieResource::load(FileBuffer *buffer)
                     mc->data.push_back(tmpbuf->getSint16LE());
                 }
             }
-            m_movieChunks.push_back(mc);
+            m_movieTags.push_back(mc);
         }
         delete tmpbuf;
         clearTags();

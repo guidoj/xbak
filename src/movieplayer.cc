@@ -31,19 +31,19 @@ const unsigned int UPDATE             = 0x0ff0;
 const unsigned int DELAY              = 0x1020;
 const unsigned int SLOT_IMAGE         = 0x1050;
 const unsigned int SLOT_PALETTE       = 0x1060;
-const unsigned int SET_SCENE          = 0x1110;
-const unsigned int SET_FRAME0         = 0x2000;
-const unsigned int SET_FRAME1         = 0x2010;
+const unsigned int COMMENT            = 0x1110;
+const unsigned int DRAW_SCREEN        = 0x2000;
+const unsigned int PREDRAW_SCREEN     = 0x2010;
 const unsigned int FADE_OUT           = 0x4110;
 const unsigned int FADE_IN            = 0x4120;
 const unsigned int SAVE_IMAGE0        = 0x4200;
 const unsigned int SAVE_IMAGE1        = 0x4210;
-const unsigned int SET_WINDOW         = 0xa100;
-const unsigned int DRAW_SPRITE0       = 0xa500;
-const unsigned int DRAW_SPRITE1       = 0xa510;
-const unsigned int DRAW_SPRITE2       = 0xa520;
-const unsigned int DRAW_SPRITE3       = 0xa530;
-const unsigned int DRAW_SCREEN        = 0xb600;
+const unsigned int CLEAR_WINDOW       = 0xa100;
+const unsigned int DRAW_IMAGE0        = 0xa500;
+const unsigned int DRAW_IMAGE1        = 0xa510;
+const unsigned int DRAW_IMAGE2        = 0xa520;
+const unsigned int DRAW_IMAGE3        = 0xa530;
+const unsigned int REDRAW_SCREEN      = 0xb600;
 const unsigned int LOAD_SOUNDRESOURCE = 0xc020;
 const unsigned int SELECT_SOUND       = 0xc030;
 const unsigned int DESELECT_SOUND     = 0xc040;
@@ -67,14 +67,15 @@ MoviePlayer::~MoviePlayer()
     MediaToolkit::getInstance()->removeTimerListener ( this );
 }
 
-void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
+void MoviePlayer::play ( std::vector<MovieTag *> *movie, const bool repeat )
 {
     try
     {
-        m_chunkVec = movie;
+        m_movieTags = movie;
         m_looped = repeat;
         m_delayed = false;
-        m_playing = true;
+        m_prerunning = true;
+        m_playing = false;
         m_screenSlot = 0;
         m_soundSlot = SoundResource::getInstance();
         memset ( m_imageSlot, 0, sizeof ( ImageResource* ) * MAX_IMAGE_SLOTS );
@@ -83,10 +84,10 @@ void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
         m_backgroundImageDrawn = false;
         m_savedImage = 0;
         m_savedImageDrawn = false;
-        m_currFrame = 0;
+        m_prerunTag = 0;
+        m_currTag = 0;
         m_currImage = 0;
         m_currPalette = 0;
-        m_currChunk = 0;
         m_currDelay = 0;
         m_currSound = 0;
         m_soundMap.clear();
@@ -95,11 +96,19 @@ void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
         m_paletteActivated = false;
 
         PointerManager::getInstance()->getCurrentPointer()->setVisible ( false );
+        MediaToolkit::getInstance()->getAudio()->stopMusic();
 
-        while ( m_playing )
+        while ( m_prerunning || m_playing )
         {
-            playChunk ( MediaToolkit::getInstance() );
+            if ( m_prerunning )
+            {
+                prerunTag ( MediaToolkit::getInstance() );
+            }
             if ( m_playing )
+            {
+                playTag ( MediaToolkit::getInstance() );
+            }
+            if ( m_delayed )
             {
                 MediaToolkit::getInstance()->waitEvents();
             }
@@ -143,19 +152,97 @@ void MoviePlayer::play ( std::vector<MovieChunk *> *movie, const bool repeat )
     }
     catch ( Exception &e )
     {
-        e.print ( "MoviePlayer::Play" );
+        e.print ( "MoviePlayer::play" );
         throw;
     }
 }
 
-void MoviePlayer::playChunk ( MediaToolkit* media )
+void MoviePlayer::prerunTag ( MediaToolkit* media )
+{
+    try
+    {
+        while ( ( m_prerunning ) && ( !m_delayed ) )
+        {
+            MovieTag *tag = (*m_movieTags)[m_prerunTag];
+            switch ( tag->code )
+            {
+            case PREDRAW_SCREEN:
+                m_screenSlot->getImage()->draw ( 0, 0 );
+                break;
+            case FADE_OUT:
+                m_paletteSlot[m_currPalette]->getPalette()->fadeOut ( tag->data[0], tag->data[1], 64 << ( tag->data[2] & 0x0f ), 2 << tag->data[3] );
+                media->getVideo()->clear();
+                m_paletteActivated = true;
+                break;
+            case UPDATE:
+                m_prerunning = false;
+                m_playing = true;
+                break;
+            case COMMENT:
+                break;
+            case SLOT_IMAGE:
+                m_currImage = tag->data[0];
+                break;
+            case SLOT_PALETTE:
+                m_currPalette = tag->data[0];
+                m_paletteActivated = false;
+                break;
+            case LOAD_SOUNDRESOURCE:
+                break;
+            case LOAD_SCREEN:
+                if ( m_screenSlot )
+                {
+                    delete m_screenSlot;
+                }
+                tag->name[tag->name.length() - 1] = 'X';
+                m_screenSlot = new ScreenResource;
+                FileManager::getInstance()->load ( m_screenSlot, tag->name );
+                m_screenSlot->getImage()->draw ( 0, 0 );
+                break;
+            case LOAD_IMAGE:
+                if ( m_imageSlot[m_currImage] )
+                {
+                    delete m_imageSlot[m_currImage];
+                }
+                tag->name[tag->name.length() - 1] = 'X';
+                m_imageSlot[m_currImage] = new ImageResource;
+                FileManager::getInstance()->load ( m_imageSlot[m_currImage], tag->name );
+                break;
+            case LOAD_PALETTE:
+                if ( m_paletteSlot[m_currPalette] )
+                {
+                    delete m_paletteSlot[m_currPalette];
+                }
+                m_paletteSlot[m_currPalette] = new PaletteResource;
+                FileManager::getInstance()->load ( m_paletteSlot[m_currPalette], tag->name );
+                m_paletteActivated = false;
+                break;
+            default:
+                break;
+            }
+            m_prerunTag++;
+            if ( m_prerunTag == m_movieTags->size() )
+            {
+                m_prerunning = false;
+                m_playing = true;
+            }
+        }
+    }
+    catch ( Exception &e )
+    {
+        e.print ( "MoviePlayer::prerunTag" );
+        throw;
+    }
+}
+
+void MoviePlayer::playTag ( MediaToolkit* media )
 {
     try
     {
         while ( ( m_playing ) && ( !m_delayed ) )
         {
-            MovieChunk *mc = ( *m_chunkVec ) [m_currChunk];
-            switch ( mc->code )
+            MovieTag *tag = ( *m_movieTags ) [m_currTag];
+            switch ( tag->code )
             {
             case SAVE_BACKGROUND:
                 if ( m_backgroundImage == 0 )
@@ -208,30 +295,17 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 }
                 m_backgroundImageDrawn = false;
                 m_savedImageDrawn = false;
+                m_prerunning = true;
+                m_playing = false;
                 break;
             case DELAY:
-                m_currDelay = mc->data[0] * 10;
+                m_currDelay = tag->data[0] * 10;
                 break;
-            case SLOT_IMAGE:
-                m_currImage = mc->data[0];
-                break;
-            case SLOT_PALETTE:
-                m_currPalette = mc->data[0];
-                m_paletteActivated = false;
-                break;
-            case SET_SCENE:
-                break;
-            case SET_FRAME0:
-            case SET_FRAME1:
-                m_currFrame = mc->data[1];
-                break;
-            case FADE_OUT:
-                m_paletteSlot[m_currPalette]->getPalette()->fadeOut ( mc->data[0], mc->data[1], 64 << ( mc->data[2] & 0x0f ), 2 << mc->data[3] );
-                media->getVideo()->clear();
-                m_paletteActivated = true;
+            case DRAW_SCREEN:
+                m_screenSlot->getImage()->draw ( 0, 0 );
                 break;
             case FADE_IN:
-                m_paletteSlot[m_currPalette]->getPalette()->fadeIn ( mc->data[0], mc->data[1], 64 << ( mc->data[2] & 0x0f ), 2 << mc->data[3] );
+                m_paletteSlot[m_currPalette]->getPalette()->fadeIn ( tag->data[0], tag->data[1], 64 << ( tag->data[2] & 0x0f ), 2 << tag->data[3] );
                 m_paletteActivated = true;
                 break;
             case SAVE_IMAGE0:
@@ -240,18 +314,19 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 {
                     delete m_savedImage;
                 }
-                m_xSavedImage = mc->data[0];
-                m_ySavedImage = mc->data[1];
-                m_savedImage = new Image ( mc->data[2], mc->data[3] );
+                m_xSavedImage = tag->data[0];
+                m_ySavedImage = tag->data[1];
+                m_savedImage = new Image ( tag->data[2], tag->data[3] );
                 m_savedImage->read ( m_xSavedImage, m_ySavedImage );
                 m_savedImageDrawn = false;
                 break;
-            case SET_WINDOW:
+            case CLEAR_WINDOW:
+                media->getVideo()->clear(tag->data[0], tag->data[1], tag->data[2], tag->data[3]);
                 break;
-            case DRAW_SPRITE0:
-            case DRAW_SPRITE1:
-            case DRAW_SPRITE2:
-            case DRAW_SPRITE3:
+            case DRAW_IMAGE0:
+            case DRAW_IMAGE1:
+            case DRAW_IMAGE2:
+            case DRAW_IMAGE3:
                 if ( ( m_backgroundImage != 0 ) && ( !m_backgroundImageDrawn ) )
                 {
                     m_backgroundImage->draw ( 0, 0 );
@@ -262,12 +337,12 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                     m_savedImage->draw ( m_xSavedImage, m_ySavedImage );
                     m_savedImageDrawn = true;
                 }
-                if ( m_imageSlot[mc->data[3]] )
+                if ( m_imageSlot[tag->data[3]] )
                 {
-                    m_imageSlot[mc->data[3]]->getImage ( mc->data[2] )->draw ( mc->data[0], mc->data[1], 0 );
+                    m_imageSlot[tag->data[3]]->getImage ( tag->data[2] )->draw ( tag->data[0], tag->data[1], 0 );
                 }
                 break;
-            case DRAW_SCREEN:
+            case REDRAW_SCREEN:
                 if ( ( m_backgroundImage != 0 ) && ( !m_backgroundImageDrawn ) )
                 {
                     m_backgroundImage->draw ( 0, 0 );
@@ -275,14 +350,12 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 }
                 if ( m_screenSlot )
                 {
-                    m_screenSlot->getImage()->draw ( mc->data[0], mc->data[1] );
+                    m_screenSlot->getImage()->draw ( tag->data[0], tag->data[1] );
                 }
-                break;
-            case LOAD_SOUNDRESOURCE:
                 break;
             case SELECT_SOUND:
             {
-                std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
+                std::map<unsigned int, int>::iterator it = m_soundMap.find ( tag->data[0] );
                 if ( it != m_soundMap.end() )
                 {
                     if ( it->second >= 0 )
@@ -291,12 +364,12 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                     }
                     m_soundMap.erase ( it );
                 }
-                m_soundMap.insert ( std::pair<unsigned int, int> ( mc->data[0], -1 ) );
+                m_soundMap.insert ( std::pair<unsigned int, int> ( tag->data[0], -1 ) );
             }
             break;
             case DESELECT_SOUND:
             {
-                std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
+                std::map<unsigned int, int>::iterator it = m_soundMap.find ( tag->data[0] );
                 if ( it != m_soundMap.end() )
                 {
                     if ( it->second >= 0 )
@@ -309,7 +382,7 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
             break;
             case PLAY_SOUND:
             {
-                std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
+                std::map<unsigned int, int>::iterator it = m_soundMap.find ( tag->data[0] );
                 if ( it != m_soundMap.end() )
                 {
                     SoundData data = m_soundSlot->getSoundData ( it->first );
@@ -336,7 +409,7 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
             break;
             case STOP_SOUND:
             {
-                std::map<unsigned int, int>::iterator it = m_soundMap.find ( mc->data[0] );
+                std::map<unsigned int, int>::iterator it = m_soundMap.find ( tag->data[0] );
                 if ( it != m_soundMap.end() )
                 {
                     SoundData data = m_soundSlot->getSoundData ( it->first );
@@ -355,43 +428,18 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 }
             }
             break;
-            case LOAD_SCREEN:
-                if ( m_screenSlot )
-                {
-                    delete m_screenSlot;
-                }
-                mc->name[mc->name.length() - 1] = 'X';
-                m_screenSlot = new ScreenResource;
-                FileManager::getInstance()->load ( m_screenSlot, mc->name );
-                m_screenSlot->getImage()->draw ( 0, 0 );
-                break;
-            case LOAD_IMAGE:
-                if ( m_imageSlot[m_currImage] )
-                {
-                    delete m_imageSlot[m_currImage];
-                }
-                mc->name[mc->name.length() - 1] = 'X';
-                m_imageSlot[m_currImage] = new ImageResource;
-                FileManager::getInstance()->load ( m_imageSlot[m_currImage], mc->name );
-                break;
-            case LOAD_PALETTE:
-                if ( m_paletteSlot[m_currPalette] )
-                {
-                    delete m_paletteSlot[m_currPalette];
-                }
-                m_paletteSlot[m_currPalette] = new PaletteResource;
-                FileManager::getInstance()->load ( m_paletteSlot[m_currPalette], mc->name );
-                m_paletteActivated = false;
-                break;
             default:
                 break;
             }
-            m_currChunk++;
-            if ( m_currChunk == m_chunkVec->size() )
+            m_currTag++;
+            if ( m_currTag == m_movieTags->size() )
             {
+                m_playing = false;
                 if ( m_looped )
                 {
-                    m_currChunk = 0;
+                    m_prerunning = true;
+                    m_prerunTag = 0;
+                    m_currTag = 0;
                     if ( m_backgroundImage != 0 )
                     {
                         delete m_backgroundImage;
@@ -405,14 +453,14 @@ void MoviePlayer::playChunk ( MediaToolkit* media )
                 }
                 else
                 {
-                    m_playing = false;
+                    m_prerunning = false;
                 }
             }
         }
     }
     catch ( Exception &e )
     {
-        e.print ( "MoviePlayer::PlayChunk" );
+        e.print ( "MoviePlayer::playTag" );
         throw;
     }
 }
@@ -425,6 +473,7 @@ void MoviePlayer::keyPressed ( const KeyboardEvent& kbe )
     case KEY_RETURN:
     case KEY_SPACE:
         m_playing = false;
+        m_prerunning = false;
         break;
     default:
         break;
@@ -446,6 +495,7 @@ void MoviePlayer::pointerButtonPressed ( const PointerButtonEvent& pbe )
     {
     case PB_PRIMARY:
         m_playing = false;
+        m_prerunning = false;
         break;
     default:
         break;

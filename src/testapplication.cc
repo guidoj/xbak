@@ -204,7 +204,7 @@ void TestApplication::playMovie ( const std::string& name )
     {
         FileManager::getInstance()->load ( &m_ttm, name );
         MoviePlayer moviePlayer;
-        moviePlayer.play ( &m_ttm.getMovieChunks(), false );
+        moviePlayer.play ( &m_ttm.getMovieTags(), false );
     }
     catch ( Exception &e )
     {

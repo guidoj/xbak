@@ -35,7 +35,7 @@ class MoviePlayer
     , public TimerEventListener
 {
 private:
-    std::vector<MovieChunk *> *m_chunkVec;
+    std::vector<MovieTag *> *m_movieTags;
     ScreenResource* m_screenSlot;
     SoundResource* m_soundSlot;
     ImageResource* m_imageSlot[MAX_IMAGE_SLOTS];
@@ -46,22 +46,24 @@ private:
     int m_xSavedImage;
     int m_ySavedImage;
     bool m_savedImageDrawn;
-    unsigned int m_currFrame;
+    unsigned int m_prerunTag;
+    unsigned int m_currTag;
     unsigned int m_currImage;
     unsigned int m_currPalette;
-    unsigned int m_currChunk;
     unsigned int m_currDelay;
     unsigned int m_currSound;
     std::map<unsigned int, int> m_soundMap;
     bool m_paletteActivated;
+    bool m_prerunning;
     bool m_playing;
     bool m_looped;
     bool m_delayed;
-    void playChunk ( MediaToolkit* media );
+    void prerunTag ( MediaToolkit* media );
+    void playTag ( MediaToolkit* media );
 public:
     MoviePlayer();
     virtual ~MoviePlayer();
-    void play ( std::vector<MovieChunk *> *movie, const bool repeat );
+    void play ( std::vector<MovieTag *> *movie, const bool repeat );
     void keyPressed ( const KeyboardEvent& kbe );
     void keyReleased ( const KeyboardEvent& kbe );
     void pointerButtonPressed ( const PointerButtonEvent& pbe );

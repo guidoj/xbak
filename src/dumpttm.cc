@@ -42,7 +42,7 @@ int main ( int argc, char *argv[] )
         MovieResource *ttm = new MovieResource;
         FileManager::getInstance()->load ( ttm, argv[1] );
         printf ( "%s %d\n", ttm->getVersion().c_str(), ttm->getPages() );
-        std::vector<MovieChunk *> mc = ttm->getMovieChunks();
+        std::vector<MovieTag *> mc = ttm->getMovieTags();
         for ( unsigned int i = 0; i < mc.size(); i++ )
         {
             printf ( "%4d %04x %-39s: ", i, mc[i]->code, mc[i]->name.c_str() );
@@ -90,17 +90,17 @@ int main ( int argc, char *argv[] )
             case 0x1100:
                 break;
             case 0x1110:
-                printf ( " set scene (scene)" );
+                printf ( " comment (scene)" );
                 break;
             case 0x1120:
                 break;
             case 0x1200:
                 break;
             case 0x2000:
-                printf ( " set frame (?, frame)" );
+                printf ( " draw screen (?, ?)" );
                 break;
             case 0x2010:
-                printf ( " set frame (?, frame)" );
+                printf ( " draw screen (?, ?)" );
                 break;
             case 0x2300:
                 break;
@@ -134,19 +134,19 @@ int main ( int argc, char *argv[] )
             case 0xa0b0:
                 break;
             case 0xa100:
-                printf ( " set window (x, y, w, h)" );
+                printf ( " clear window (x, y, w, h)" );
                 break;
             case 0xa500:
-                printf ( " draw sprite (x, y, frame, image)" );
+                printf ( " draw image (x, y, frame, image)" );
                 break;
             case 0xa510:
-                printf ( " draw sprite (x, y, frame, image)" );
+                printf ( " draw image (x, y, frame, image)" );
                 break;
             case 0xa520:
-                printf ( " draw sprite (x, y, frame, image)" );
+                printf ( " draw image (x, y, frame, image)" );
                 break;
             case 0xa530:
-                printf ( " draw sprite (x, y, frame, image)" );
+                printf ( " draw image (x, y, frame, image)" );
                 break;
             case 0xa5a0:
                 break;
@@ -177,6 +177,7 @@ int main ( int argc, char *argv[] )
                 printf ( " load image resource" );
                 break;
             case 0xf040:
+                printf ( " load unknown resource" );
                 break;
             case 0xf050:
                 printf ( " load palette resource" );

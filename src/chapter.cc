@@ -59,7 +59,7 @@ void Chapter::playIntro()
         MovieResource ttm;
         FileManager::getInstance()->load ( &ttm, anim.getAnimationData ( 1 ).m_resource );
         MoviePlayer moviePlayer;
-        moviePlayer.play ( &ttm.getMovieChunks(), false );
+        moviePlayer.play ( &ttm.getMovieTags(), false );
         MediaToolkit::getInstance()->getVideo()->clear();
         MediaToolkit::getInstance()->getVideo()->refresh();
     }
@@ -83,7 +83,7 @@ void Chapter::playScene ( const int scene )
         MovieResource ttm;
         FileManager::getInstance()->load ( &ttm, anim.getAnimationData ( 1 ).m_resource );
         MoviePlayer moviePlayer;
-        moviePlayer.play ( &ttm.getMovieChunks(), false );
+        moviePlayer.play ( &ttm.getMovieTags(), false );
     }
     catch ( Exception &e )
     {
