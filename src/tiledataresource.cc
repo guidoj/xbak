@@ -38,14 +38,30 @@ TileDataResource::load(FileBuffer *buffer)
     try
     {
         clear();
-        while (!buffer->atEnd())
+        for (unsigned int n = 0; n < 10; ++n)
         {
-            buffer->skip(4);
+            buffer->seek(192 * n);
+            unsigned int numTileDataBlocks = buffer->getUint16LE();
+            while (numTileDataBlocks > 0)
+            {
+                // TODO
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint8();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                buffer->getUint16LE();
+                --numTileDataBlocks;
+            }
         }
     }
     catch (Exception &e)
     {
-        e.print("TileDataResource::Load");
+        e.print("TileDataResource::load");
         throw;
     }
 }
@@ -61,7 +77,7 @@ TileDataResource::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("TileDataResource::Load");
+        e.print("TileDataResource::save");
         throw;
     }
 }

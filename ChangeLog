@@ -1,6 +1,7 @@
 2022-xx-yy, xbak-0.1.6:
 * Migrated to SDL2
 * Changed the build system to CMake.
+* More work on animation scenes.
 * Renamed all files to lower case.
 * Updated coding style.
 * Several bug fixes.

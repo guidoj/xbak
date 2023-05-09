@@ -97,7 +97,7 @@ TileWorldResource::load(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("TileWorldResource::Load");
+        e.print("TileWorldResource::load");
         throw;
     }
 }
@@ -113,7 +113,7 @@ TileWorldResource::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("TileWorldResource::Save");
+        e.print("TileWorldResource::save");
         throw;
     }
 }

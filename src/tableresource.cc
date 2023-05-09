@@ -264,7 +264,7 @@ TableResource::load(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("TableResource::Load");
+        e.print("TableResource::load");
         clearTags();
         throw;
     }
@@ -281,7 +281,7 @@ TableResource::save(FileBuffer *buffer)
     }
     catch (Exception &e)
     {
-        e.print("TableResource::Save");
+        e.print("TableResource::save");
         throw;
     }
 }

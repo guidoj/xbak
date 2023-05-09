@@ -31,15 +31,27 @@ HotspotWidget::~HotspotWidget()
 }
 
 void
-HotspotWidget::leftClick(const bool toggle)
+HotspotWidget::leftClick(const bool toggle, const int x, const int y )
 {
+    if ( x > 0 )
+    {
+    }
+    if ( y > 0 )
+    {
+    }
     generateActionEvent(toggle ? getAction() : ACT_STOP);
 }
 
 void
-HotspotWidget::rightClick(const bool toggle)
+HotspotWidget::rightClick(const bool toggle, const int x, const int y )
 {
     if (toggle)
     {
+        if ( x > 0 )
+        {
+        }
+        if ( y > 0 )
+        {
+        }
     }
 }

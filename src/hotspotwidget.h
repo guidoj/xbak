@@ -28,8 +28,8 @@ class HotspotWidget
 public:
     HotspotWidget ( const Rectangle &r, const int a );
     virtual ~HotspotWidget();
-    void leftClick ( const bool toggle );
-    void rightClick ( const bool toggle );
+    void leftClick ( const bool toggle, const int x, const int y  );
+    void rightClick ( const bool toggle, const int x, const int y  );
 };
 
 #endif

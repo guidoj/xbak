@@ -65,7 +65,7 @@ void Chapter::playIntro()
     }
     catch ( Exception &e )
     {
-        e.print ( "Chapter::PlayIntro" );
+        e.print ( "Chapter::playIntro" );
     }
 }
 
@@ -87,7 +87,7 @@ void Chapter::playScene ( const int scene )
     }
     catch ( Exception &e )
     {
-        e.print ( "Chapter::PlayIntro" );
+        e.print ( "Chapter::playIntro" );
     }
 }
 
@@ -204,7 +204,7 @@ void Chapter::readBook ( const int scene )
     }
     catch ( Exception &e )
     {
-        e.print ( "Chapter::ReadBook" );
+        e.print ( "Chapter::readBook" );
     }
 }
 
@@ -230,7 +230,7 @@ void Chapter::showMap()
     }
     catch ( Exception &e )
     {
-        e.print ( "Chapter::ShowMap" );
+        e.print ( "Chapter::showMap" );
     }
 }
 
@@ -264,7 +264,7 @@ void Chapter::start ( const bool maponly )
     }
     catch ( Exception &e )
     {
-        e.print ( "Chapter::Start" );
+        e.print ( "Chapter::start" );
     }
 }
 

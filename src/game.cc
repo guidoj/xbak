@@ -20,7 +20,6 @@
 #include "exception.h"
 #include "filemanager.h"
 #include "game.h"
-#include "objectresource.h"
 #include "scenefactory.h"
 
 Game::Game()
